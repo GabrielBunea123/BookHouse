@@ -119,16 +119,12 @@ const AddProductPage = (props) => {
         data.append("stock",stock)
 
 
-    
-        axios({
+        const requestOptions={
           method: "POST",
-          url: "https://tobuycopy-101.herokuapp.com/api/add-product",
-          headers: {
-          
-            Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
-          },
-          data
-        })
+          headers:{"Content-Type": "application/json"},
+          body:data
+        }
+          fetch('/api/add-product',requestOptions)
           .then((res) => {
               if(!res.ok){
                 setSuccessMsg("The product has been added.")
