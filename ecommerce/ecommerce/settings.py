@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import dj_database_url 
+import django_heroku
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -169,8 +173,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 #     'http://tobuycopy-101.herokuapp.com/'
 # ]
 
-import dj_database_url 
-import django_heroku
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
