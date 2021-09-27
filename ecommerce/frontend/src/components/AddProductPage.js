@@ -122,7 +122,7 @@ const AddProductPage = (props) => {
     
         axios({
           method: "POST",
-          url: "/api/add-product",
+          url: "https://tobuycopy-101.herokuapp.com/api/add-product",
           headers: {
           
             Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
