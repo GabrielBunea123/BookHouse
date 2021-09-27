@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 CORS_ORIGIN_WHITELIST = (
     'https://127.0.0.1:8000',
     'https://tobuycopy-101.herokuapp.com/'
-#     'http://tobuycopy-101.herokuapp.com/'
+    'http://tobuycopy-101.herokuapp.com/'
 )
 # JWT_AUTH = {
 #     'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.my_jwt_response_handler'
