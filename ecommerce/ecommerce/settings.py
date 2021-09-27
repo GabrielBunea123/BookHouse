@@ -41,10 +41,12 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'frontend.apps.FrontendConfig',
     'rest_framework',
-    'corsheaders',
+    # 'corsheaders',
 ]
 CORS_ORIGIN_WHITELIST = (
     'https://127.0.0.1:8000',
+    'https://tobuycopy-101.herokuapp.com/'
+#     'http://tobuycopy-101.herokuapp.com/'
 )
 # JWT_AUTH = {
 #     'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.my_jwt_response_handler'
@@ -87,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ecommerce.wsgi.application'
+# WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 # Database
@@ -162,10 +164,10 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-CORS_ORIGIN_WHITELIST=[
-    'https://tobuycopy-101.herokuapp.com/'
-    'http://tobuycopy-101.herokuapp.com/'
-]
+# CORS_ORIGIN_WHITELIST=[
+#     'https://tobuycopy-101.herokuapp.com/'
+#     'http://tobuycopy-101.herokuapp.com/'
+# ]
 
 import dj_database_url 
 prod_db = dj_database_url.config(conn_max_age=500)
