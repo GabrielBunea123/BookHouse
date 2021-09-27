@@ -45,6 +45,7 @@ class AddProduct(APIView):
             for i in image:
                 ProductImage.objects.create(product_id=product.id,image=i)
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
