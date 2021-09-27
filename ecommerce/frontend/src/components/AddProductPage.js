@@ -118,12 +118,11 @@ const AddProductPage = (props) => {
         data.append("category",category)
         data.append("stock",stock)
 
-        console.log(currency,price,description,name,category,stock)
 
     
         axios({
           method: "POST",
-          url: "http://127.0.0.1:8000/api/add-product",
+          url: "/api/add-product",
           headers: {
           
             Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
