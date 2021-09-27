@@ -118,6 +118,8 @@ const AddProductPage = (props) => {
         data.append("category",category)
         data.append("stock",stock)
 
+        console.log(currency,price,description,name,category,stock)
+
     
         axios({
           method: "POST",
