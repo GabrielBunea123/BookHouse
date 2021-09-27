@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     # 'corsheaders',
 ]
 CORS_ORIGIN_WHITELIST = (
-    'https://127.0.0.1:8000',
+    # 'https://127.0.0.1:8000',
     'https://tobuycopy-101.herokuapp.com/'
     'http://tobuycopy-101.herokuapp.com/'
 )
