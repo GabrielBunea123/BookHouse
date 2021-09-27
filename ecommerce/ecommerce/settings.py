@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-yjn14l5tbr$bt^85tc14r*m!ts790on4rr64ui$m+b(ks3@_$n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*','https://tobuycopy-101.herokuapp.com/']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -164,6 +164,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CORS_ORIGIN_WHITELIST=[
     'https://tobuycopy-101.herokuapp.com/'
+    'http://tobuycopy-101.herokuapp.com/'
 ]
 
 import dj_database_url 
