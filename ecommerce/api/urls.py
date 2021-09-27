@@ -2,7 +2,7 @@ from .views import *
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework_jwt.views import obtain_jwt_token
+# from rest_framework_jwt.views import obtain_jwt_token
 
 
 urlpatterns = [
@@ -25,7 +25,7 @@ urlpatterns = [
     path('get-reviews',GetReviews.as_view()),
     path('check-for-fav',ProductDetailsFavouriteProduct.as_view()),
     path('searched-results',SearchedResults.as_view()),
-    path('token-auth/', obtain_jwt_token),
+    # path('token-auth/', obtain_jwt_token),
     path("contact",Contact.as_view()),
     path('confirm-ramburs',ConfirmRamburs.as_view()),
     

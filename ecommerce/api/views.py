@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework.permissions import  IsAdminUser
 # from django.core.validators import validate_email
-from validate_email import validate_email
+# from validate_email import validate_email
 
 # Create your views here.
 
