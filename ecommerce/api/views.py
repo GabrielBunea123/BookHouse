@@ -30,20 +30,21 @@ class AddProduct(APIView):
             self.request.session.create()
 
         serializer = self.serializer_class(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             name = serializer.data.get('name')
             description = serializer.data.get('description')
             price = serializer.data.get('price')
-            image = request.FILES.getlist("image")
+            # image = request.FILES.getlist("image")
             currency = serializer.data.get('currency')
             category = serializer.data.get('category')
             stock = serializer.data.get('stock')
             author = self.request.session.session_key
             product = Product(name=name, author=author,stock=stock,
-                        description=description,price=price,currency=currency,image=image[0],category = category)
+                        description=description,price=price,currency=currency,category = category)
             product.save()
-            for i in image:
-                ProductImage.objects.create(product_id=product.id,image=i)
+            # for i in image:
+            #     ProductImage.objects.create(product_id=product.id,image=i)
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

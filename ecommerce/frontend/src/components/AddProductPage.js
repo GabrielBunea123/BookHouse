@@ -106,10 +106,10 @@ const AddProductPage = (props) => {
       })
     }
     function handleSubmitButtonPressed(){
-      // let data = new FormData(); // creates a new FormData object
-      // [...image].map((index,key)=>{
-      //   data.append("image",index)
-      // })
+      let data = new FormData(); // creates a new FormData object
+      [...image].map((index,key)=>{
+        data.append("image",index)
+      })
       // // data.append("images[]",[...image].map((index,key)=>{index})); // add your file to form data
       // data.append("currency",currency); 
       // data.append("price",price)
@@ -136,7 +136,7 @@ const AddProductPage = (props) => {
       //   .then((err) => console.log(err));
       const requestOptions = {
         method: "POST",
-        headers: {'ContentTypt':"application/json"},
+        headers: {'Content-Type': 'application/json'},
         body:JSON.stringify({
           currency:currency,
           price:price,
@@ -144,11 +144,11 @@ const AddProductPage = (props) => {
           name:name,
           category:category,
           stcok:stock,
-          image:''
+          // image:data.image,
         })
       }
       fetch('/api/add-product',requestOptions)
-      .then((res)=>res.json)
+      .then((res)=>res.json())
       .then((data)=>console.log(data))
     }
     return (
