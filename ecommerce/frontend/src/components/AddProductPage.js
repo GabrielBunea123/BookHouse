@@ -106,50 +106,34 @@ const AddProductPage = (props) => {
       })
     }
     function handleSubmitButtonPressed(){
-      let data = new FormData(); // creates a new FormData object
+      var data = new FormData(); // creates a new FormData object
       [...image].map((index,key)=>{
         data.append("image",index)
       })
-      // // data.append("images[]",[...image].map((index,key)=>{index})); // add your file to form data
-      // data.append("currency",currency); 
-      // data.append("price",price)
-      // data.append("description",description)
-      // data.append("name",name)
-      // data.append("category",category)
-      // data.append("stock",stock)
+      // data.append("images[]",[...image].map((index,key)=>{index})); // add your file to form data
+      data.append("currency",currency); 
+      data.append("price",price)
+      data.append("description",description)
+      data.append("name",name)
+      data.append("category",category)
+      data.append("stock",stock)
   
-      // axios({
-      //   method: "POST",
-      //   url: "/api/add-product",
-      //   headers: {
-        
-      //     Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
-      //   },
-      //   data
-      // })
-      //   .then((res) => {
-      //     if(!res.ok){
-      //       setSuccessMsg("The product has been added.")
-      //     }
-      //     else{setErrorMsg("Error occurred. Please try again.")}
-      //   })
-      //   .then((err) => console.log(err));
-      const requestOptions = {
+      axios({
         method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body:JSON.stringify({
-          currency:currency,
-          price:price,
-          description:description,
-          name:name,
-          category:category,
-          stcok:stock,
-          // image:data.image,
+        url: "/api/add-product",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
+        },
+        data
+      })
+        .then((res) => {
+          if(!res.ok){
+            setSuccessMsg("The product has been added.")
+          }
+          else{setErrorMsg("Error occurred. Please try again.")}
         })
-      }
-      fetch('/api/add-product',requestOptions)
-      .then((res)=>res.json())
-      .then((data)=>console.log(data))
+        .then((err) => console.log(err));
     }
     return (
         <Grid container spacing={1}>
@@ -240,6 +224,7 @@ const AddProductPage = (props) => {
               <Select
                 labelId="demo-simple-select-filled-label"
                 id="demo-simple-select-filled"
+                name="category"
                 value={category}
                 onChange={handleCategoryChange}
                 >
