@@ -106,34 +106,50 @@ const AddProductPage = (props) => {
       })
     }
     function handleSubmitButtonPressed(){
-      let data = new FormData(); // creates a new FormData object
-      [...image].map((index,key)=>{
-        data.append("image",index)
-      })
-      // data.append("images[]",[...image].map((index,key)=>{index})); // add your file to form data
-      data.append("currency",currency); 
-      data.append("price",price)
-      data.append("description",description)
-      data.append("name",name)
-      data.append("category",category)
-      data.append("stock",stock)
+      // let data = new FormData(); // creates a new FormData object
+      // [...image].map((index,key)=>{
+      //   data.append("image",index)
+      // })
+      // // data.append("images[]",[...image].map((index,key)=>{index})); // add your file to form data
+      // data.append("currency",currency); 
+      // data.append("price",price)
+      // data.append("description",description)
+      // data.append("name",name)
+      // data.append("category",category)
+      // data.append("stock",stock)
   
-      axios({
-        method: "POST",
-        url: "/api/add-product",
-        headers: {
+      // axios({
+      //   method: "POST",
+      //   url: "/api/add-product",
+      //   headers: {
         
-          Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
-        },
-        data
-      })
-        .then((res) => {
-          if(!res.ok){
-            setSuccessMsg("The product has been added.")
-          }
-          else{setErrorMsg("Error occurred. Please try again.")}
+      //     Authorization: "Bearer 6tEg0RinS5rxyZ8TX84Vc6qXuR2Xxw"
+      //   },
+      //   data
+      // })
+      //   .then((res) => {
+      //     if(!res.ok){
+      //       setSuccessMsg("The product has been added.")
+      //     }
+      //     else{setErrorMsg("Error occurred. Please try again.")}
+      //   })
+      //   .then((err) => console.log(err));
+      const requestOptions = {
+        method: "POST",
+        headers: {'ContentTypt':"application/json"},
+        body:JSON.stringify({
+          currency:currency,
+          price:price,
+          description:description,
+          name:name,
+          category:category,
+          stcok:stock,
+          image:''
         })
-        .then((err) => console.log(err));
+      }
+      fetch('/api/add-product',requestOptions)
+      .then((res)=>res.json)
+      .then((data)=>console.log(data))
     }
     return (
         <Grid container spacing={1}>
