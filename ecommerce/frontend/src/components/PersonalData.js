@@ -82,6 +82,7 @@ const PersonalData = () => {
             }
         })
         .then((data)=>{
+            console.log(data)
         })
         setFunctionRunning(true)
 

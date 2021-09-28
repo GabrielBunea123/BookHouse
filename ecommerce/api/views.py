@@ -369,8 +369,6 @@ class PersonalDataView(APIView):
 
             personalDataAll = PersonalData.objects.all()
             buyer_id = self.request.session.session_key
-
-            print(block,scara,apartment)
             
 
             if block!='' and scara!='' and apartment!='':
@@ -384,6 +382,7 @@ class PersonalDataView(APIView):
                 personalData.save()
                 return Response({"ok":"ok"}, status=status.HTTP_200_OK)
             elif len(block)==0 and len(scara)==0 and len(apartment)==0:
+                print(len(block),len(scara),len(apartment))
                 for i in personalDataAll:
                     if buyer_id==i.buyer_id:
                         i.delete()
@@ -393,8 +392,8 @@ class PersonalDataView(APIView):
 
                     personalData.save()
                     return Response({"ok":"ok"}, status=status.HTTP_200_OK)
-            else:
-                return Response({"Bad Request":"All your fields must be filled"},status=status.HTTP_400_BAD_REQUEST)
+            # else:
+            #     return Response({"Bad Request":"All your fields must be filled"},status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
