@@ -29,9 +29,8 @@ urlpatterns = [
     # path('token-auth/', obtain_jwt_token),
     path("contact",Contact.as_view()),
     path('confirm-ramburs',ConfirmRamburs.as_view()),
-    re_path(r'/media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT})
+    # re_path(r'/media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT})
 
     
 ]
-# + static(settings.MEDIA_URL,
-#                 document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
