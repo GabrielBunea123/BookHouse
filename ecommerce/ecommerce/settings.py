@@ -142,12 +142,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "live-static-files", "static-root")
 STATIC_URL = '/static/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+MEDIA_ROOT = os.path.join(BASE_DIR, "live-static-files", "media-root")
+MEDIA_URL = '/media/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -155,8 +159,6 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
 
 STRIPE_PUBLISHABLE_KEY="pk_test_51JQpMJBL4rqcbP3BPR5jnnDPPlpiAGIjyurgrNELzYAOKlN7j0apcxrz4RC33ZEVyYF8NZDjUeHaCxoeZcBrF9hI00QnV61k9c"
@@ -177,7 +179,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # ]
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
 # prod_db = dj_database_url.config(conn_max_age=500)
