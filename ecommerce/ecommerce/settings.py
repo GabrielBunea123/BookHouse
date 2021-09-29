@@ -187,3 +187,14 @@ django_heroku.settings(locals())
 COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 # prod_db = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(prod_db)
+
+AWS_ACCESS_KEY_ID = 'AKIAX2Y54V4QN6VSIZ54'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'ecommerce-101'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' 
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
