@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-yjn14l5tbr$bt^85tc14r*m!ts790on4rr64ui$m+b(ks3@_$n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://tobuycopy-101.herokuapp.com','http://127.0.0.1:8000/']
 
@@ -183,5 +183,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 django_heroku.settings(locals())
+
+COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 # prod_db = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(prod_db)
