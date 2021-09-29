@@ -1,7 +1,8 @@
 from .views import *
-from django.urls import path
+from django.urls import path,re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.static import serve
 # from rest_framework_jwt.views import obtain_jwt_token
 
 
@@ -28,8 +29,9 @@ urlpatterns = [
     # path('token-auth/', obtain_jwt_token),
     path("contact",Contact.as_view()),
     path('confirm-ramburs',ConfirmRamburs.as_view()),
-    
+    re_path(r'/media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT})
 
     
-]+ static(settings.MEDIA_URL,
-                document_root=settings.MEDIA_ROOT)
+]
+# + static(settings.MEDIA_URL,
+#                 document_root=settings.MEDIA_ROOT)
