@@ -16,7 +16,7 @@ class Product(models.Model):
     rating = models.IntegerField(default=0,blank=True,null=True)
 class ProductImage(models.Model):
     image = models.FileField(upload_to='product_images/',default='',blank=True)
-    product_id = models.IntegerField()
+    product_id = models.IntegerField(blank=True,null=True)
 
 class Cart(models.Model):
     name = models.CharField(max_length=200,default='')

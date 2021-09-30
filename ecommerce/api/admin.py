@@ -10,3 +10,5 @@ admin.site.register(BuyNow)
 admin.site.register(FavouriteProducts)
 admin.site.register(Review)
 admin.site.register(ProductImage)
+
+
