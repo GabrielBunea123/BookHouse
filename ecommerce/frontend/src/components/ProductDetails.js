@@ -259,6 +259,7 @@ const ProductDetails = (props) => {
                     return(
                     <div className={currentImage==key?"fade": "mySlides fade"}>
                     <img className="img-carousel" src={`${index.image}`} style={{width:'100%',maxWidth:500}}></img>
+                    <div>Detalii carte</div>
                     </div>
                     )
                 })}
