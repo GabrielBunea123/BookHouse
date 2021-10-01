@@ -69,7 +69,7 @@ const FavouriteProducts = (props) => {
         <Grid container spacing="1" style={{paddingBottom:150}}>
             <Grid style={{color:"white"}} item xs={12} align="center">
               <FormControl style={{width:"70%",backgroundColor:"rgb(26, 3, 80)",padding:10,borderRadius:30,marginTop:10}}>
-                <Typography variant="h3" component="h3">Produsele tale favorite</Typography>
+                <div className="fav-title-products">Produsele tale favorite</div>
               </FormControl>
             </Grid>
             <Grid className="home card-container" container spacing={1} alignContent="center">

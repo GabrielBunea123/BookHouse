@@ -604,9 +604,21 @@ body {
   place-items: center;
   text-align: center;
   min-height: 100vh;
-  background: linear-gradient(rgba(63, 208, 212, 0.5), rgba(0, 0, 0, 0.7)),
-    url(/static/images/home-img2.png) center/cover no-repeat;
+  max-width: 100%;
+  width:100%;
+  background-size: 100%;
+  background: 
+    linear-gradient(rgba(63, 208, 212, 0.5), rgba(0, 0, 0, 0.7)),
+    url(/static/images/home-img4.png) center/cover no-repeat;
+  /* background-repeat: no-repeat; */
+  background-size: 100% 100%;
 }
+@media screen and (max-width: 120px){
+  .banner{
+    background-size: 100% 100%;
+  }
+}
+
 .banner-text h1 {
   color: #f7890c;
   font-weight: bold;
@@ -652,6 +664,9 @@ body {
   .feedback-button{
     width:80%;
   }
+}
+.fav-title-products{
+  font-size: 20px;
 }
 
 

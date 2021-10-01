@@ -150,9 +150,8 @@ const Home = (props) => {
         <div style={{paddingBottom:150}}>
            
           <div class='banner'>
-              {/* <img src='/static/images/hero-bcg.jpeg'></img> */}
               <div class='banner-text'>
-                  <Typography component="h1" variant="h1">101 toBuy</Typography>
+                  <Typography component="h1" variant="h1">toBuy</Typography>
                   <Typography component="p" variant="h6">Best book buying website</Typography>
               </div>
           </div>
