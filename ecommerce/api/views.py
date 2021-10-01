@@ -370,15 +370,15 @@ class PersonalDataView(APIView):
 
             personalDataAll = PersonalData.objects.all()
             buyer_id = self.request.session.session_key
-            
+
             for i in personalDataAll:
                 if buyer_id==i.buyer_id:
                     i.delete()      
-                personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
-                street=street,number=number,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
+            personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
+            street=street,number=number,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
 
-                personalData.save()
-                return Response({"ok":"ok"}, status=status.HTTP_200_OK)
+            personalData.save()
+            return Response({"ok":"ok"}, status=status.HTTP_200_OK)
             
 
             # if block!='' and scara!='' and apartment!='':
