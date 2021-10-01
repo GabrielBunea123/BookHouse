@@ -371,28 +371,37 @@ class PersonalDataView(APIView):
             personalDataAll = PersonalData.objects.all()
             buyer_id = self.request.session.session_key
             
-
-            if block!='' and scara!='' and apartment!='':
-                for i in personalDataAll:
-                    if buyer_id==i.buyer_id:
-                        i.delete()
-                        
+            for i in personalDataAll:
+                if buyer_id==i.buyer_id:
+                    i.delete()      
                 personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
                 street=street,number=number,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
 
                 personalData.save()
                 return Response({"ok":"ok"}, status=status.HTTP_200_OK)
-            elif len(block)==0 and len(scara)==0 and len(apartment)==0:
-                print(len(block),len(scara),len(apartment))
-                for i in personalDataAll:
-                    if buyer_id==i.buyer_id:
-                        i.delete()
-                        
-                    personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
-                    street=street,number=number,county=county,city=city,buyer_id=buyer_id,payment_method=payment_method)
+            
 
-                    personalData.save()
-                    return Response({"ok":"ok"}, status=status.HTTP_200_OK)
+            # if block!='' and scara!='' and apartment!='':
+            #     for i in personalDataAll:
+            #         if buyer_id==i.buyer_id:
+            #             i.delete()
+                        
+            #     personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
+            #     street=street,number=number,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
+
+            #     personalData.save()
+            #     return Response({"ok":"ok"}, status=status.HTTP_200_OK)
+            # elif len(block)==0 and len(scara)==0 and len(apartment)==0:
+            #     print(len(block),len(scara),len(apartment))
+            #     for i in personalDataAll:
+            #         if buyer_id==i.buyer_id:
+            #             i.delete()
+                        
+            #         personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
+            #         street=street,number=number,county=county,city=city,buyer_id=buyer_id,payment_method=payment_method)
+
+            #         personalData.save()
+            #         return Response({"ok":"ok"}, status=status.HTTP_200_OK)
             # else:
             #     return Response({"Bad Request":"All your fields must be filled"},status=status.HTTP_400_BAD_REQUEST)
 
