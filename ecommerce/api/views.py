@@ -260,7 +260,7 @@ class SearchedResults(APIView):
     def get(self,request,format=None):
         serializer = self.serializer_class(data=request.data)
         category = request.GET.get(self.lookup_url_kwarg)
-        queryset = Product.objects.filter(category__contains=category)
+        queryset = Product.objects.filter(category__icontains=category)
         if queryset.exists():
             data = ProductSerializer(queryset,many = True).data
             return Response(data, status=status.HTTP_200_OK)
@@ -268,11 +268,11 @@ class SearchedResults(APIView):
             queryset = Product.objects.all()
             for i in queryset:
                 if str(category.lower()) == str(i.name.lower()) or str(category.lower()) in str(i.name.lower()):
-                    queryset = Product.objects.filter(name=i.name)
+                    queryset = Product.objects.filter(name__icontains=category)
                     data = ProductSerializer(queryset,many = True).data
                     return Response(data, status=status.HTTP_200_OK)
                 elif str(category.lower()) == str(i.description.lower()) or str(category.lower()) in str(i.description.lower()):
-                    queryset = Product.objects.filter(description = i.description)
+                    queryset = Product.objects.filter(description__icontains = category)
                     data = ProductSerializer(queryset,many = True).data
                     return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'No object has this category'}, status=status.HTTP_404_NOT_FOUND)
