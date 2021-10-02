@@ -268,11 +268,11 @@ class SearchedResults(APIView):
             queryset = Product.objects.all()
             for i in queryset:
                 if str(category.lower()) == str(i.name.lower()) or str(category.lower()) in str(i.name.lower()):
-                    queryset = Product.objects.filter(name__contains=str(category.lower()))
+                    queryset = Product.objects.filter(name=i.name)
                     data = ProductSerializer(queryset,many = True).data
                     return Response(data, status=status.HTTP_200_OK)
                 elif str(category.lower()) == str(i.description.lower()) or str(category.lower()) in str(i.description.lower()):
-                    queryset = Product.objects.filter(description__contains=str(i.category.lower()))
+                    queryset = Product.objects.filter(description = i.description)
                     data = ProductSerializer(queryset,many = True).data
                     return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'No object has this category'}, status=status.HTTP_404_NOT_FOUND)
