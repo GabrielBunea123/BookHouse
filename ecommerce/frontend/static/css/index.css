@@ -1,14 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto:400,700&display=swap");
 html{
   height:100%;
+
   /* padding-bottom:50px; */
 }
 body {
   margin: 0;
+  padding:0;
   font-family: "Roboto", sans-serif;;
   overflow-x:hidden;
   background-color: white;
   zoom: 100%;
+  overflow-x: hidden; 
 
   min-height: 100%;
 
@@ -20,7 +23,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 220px;
+  height: 180px;
   background-color: rgb(233, 233, 233);
 }
 .title{
@@ -43,6 +46,9 @@ body {
 
 }
 @media screen and (max-width: 990px) {
+  .footer-container{
+    height:210px;
+  }
   .title{
     padding-top:0;
     padding:0;
@@ -57,7 +63,7 @@ body {
 }
 @media screen and (max-width: 750px) {
   .footer-container{
-    height:350px;
+    height:250px;
   }
   .title{
     display:block;
@@ -70,7 +76,7 @@ body {
     margin-left:0;
   }
 }
-@media screen and (max-width: 260px) {
+@media screen and (max-width: 310px) {
   .footer-container{
     height:400px;
   }
@@ -556,10 +562,7 @@ body {
   height: 40px;
 }
 .review-container{
-  width:98%;
   text-align: center;
-  padding:10px;
-  margin:12px;
   background-color: rgb(222, 231, 231);
   border: 1px solid rgb(212, 228, 230);
   border-radius: 30px;
@@ -666,7 +669,7 @@ body {
   }
 }
 .fav-title-products{
-  font-size: 20px;
+  font-size: 30px;
 }
 
 

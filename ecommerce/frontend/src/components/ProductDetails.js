@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
       info:{
           marginTop:5,
           marginBottom:12,
+          textAlign:'center',
       },
       root3:{
         minWidth: 275,
@@ -270,7 +271,7 @@ const ProductDetails = (props) => {
         )
     }
     return (
-        <Grid style={{paddingBottom:150,overflowY:'scroll'}} className="details-container" container spacing={1} align="center">
+        <Grid style={{paddingBottom:150}} className="details-container" container spacing={1} align="center">
             {/* {renderCarousel()} */}
             <Grid item xs = {12} align="center">
                 <Collapse in={errorMsg !="" || successMsg!=""}>
@@ -316,41 +317,35 @@ const ProductDetails = (props) => {
                 </Typography>
 
             </Grid>
-            <Grid className='reviews-description-container' item xs={12} align="center">
-                <ul style={{listStyleType: 'none',paddingTop:50}}>
-                    <li className={classes.info}>
-                        <FormControl style={{width:'98%'}}>
-                            <Button style={{height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} onClick={handleDescriptionButton} fullWidth>Descriere</Button>
-                        </FormControl>
-                        {/* {showDescription==false?<i class="fas fa-arrow-right"></i>:<i class="fas fa-arrow-down"></i>} */}
-                    </li>
-                    <Grid item xs={12} align="center" >
-                        <div className={`${showDescription==false? classes.showHide :null} description-details`}>
-                            <Typography variant="h6" component="h5">
-                                {product.description}
-                            </Typography>
+            <Grid style={{paddingTop:80}} className='reviews-description-container' item xs={12} align="center">
+                <FormControl style={{width:'98%'}}>
+                    <Button style={{height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} onClick={handleDescriptionButton} fullWidth>Descriere</Button>
+                </FormControl>
+
+                <Grid item xs={12} align="center" >
+                    <div className={`${showDescription==false? classes.showHide :null} description-details`}>
+                        <Typography variant="h6" component="h5">
+                            {product.description}
+                        </Typography>
+                    </div>
+                </Grid>
+                <FormControl style={{width:'98%'}}>
+                    <Button onClick={showReviewsButton} style={{marginTop:20,height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} fullWidth>Reviews ({reviews.length})</Button> 
+                </FormControl>
+                {reviews.length>0 ?reviews.map((index)=>{
+                    return(
+                    <Grid style={{marginTop:12}} item className={`${showReviews==false? classes.showHide :null} review-container`} align='center'>
+                        <div className="review-username">User</div>
+                        <Box fullWidth component="fieldset" mb={3} borderColor="transparent">
+                            <Rating name="read-only" value={index.rating} readOnly />
+                        </Box>
+                        <div className='review-comment'>
+                            {index.comment}
                         </div>
                     </Grid>
-                    <li className={classes.info}>
-                        <FormControl style={{width:'98%'}}>
-                            <Button onClick={showReviewsButton} style={{marginTop:20,height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} fullWidth>Reviews ({reviews.length})</Button> 
-                        </FormControl>
-                    </li>
-                        {reviews.length>0 ?reviews.map((index)=>{
-                            return(
-                            <Grid style={{marginTop:12}} item className={`${showReviews==false? classes.showHide :null} review-container`} align='center'>
-                                <div className="review-username">User</div>
-                                <Box fullWidth component="fieldset" mb={3} borderColor="transparent">
-                                    <Rating name="read-only" value={index.rating} readOnly />
-                                </Box>
-                                <div className='review-comment'>
-                                    {index.comment}
-                                </div>
-                            </Grid>
-                            )
-                        }):null}
-                </ul>
-                <Grid item xs={12} align="center">
+                    )
+                }):null}
+                <Grid style={{paddingTop:80}} item xs={12} align="center">
                     <Box style={{display:'inline-block'}} component="fieldset" mb={3} borderColor="transparent">
                         <Typography variant="h6" component="h5">Evalueaza produsul  </Typography>
                         <Rating
@@ -376,7 +371,7 @@ const ProductDetails = (props) => {
 
                     </Grid>
             </Grid>
-                <Typography style={{padding:50}} variant="h4" component="h4">
+                <Typography style={{padding:20}} variant="h4" component="h4">
                     Alte produse de care ai putea fi interesat
                 </Typography>
                 <Grid item xs = {12} align="center">
