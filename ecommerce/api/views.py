@@ -506,7 +506,7 @@ class Contact(APIView):
             'Feedback mail',
             f'{email}\n\n\n {body}',
             settings.EMAIL_HOST_USER,
-            [f'gabrielbunea356@yahoo.com'],
+            [f'gabriel.bunea1@yahoo.com'],
             fail_silently=False,
             )
             return Response({'OK':"200"},status = status.HTTP_200_OK)

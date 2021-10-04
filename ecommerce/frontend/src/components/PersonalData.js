@@ -70,10 +70,10 @@ const PersonalData = () => {
         fetch("/api/fill-in-personal-data",requestOptions)
         .then((res)=>{
             if(res.ok){
-                if (valueRadio=='ramburs'){
-                    history.push(`/confirm-ramburs/${buyer}`)
-                }
-                else if (valueRadio=='card de credit'){
+                // if (valueRadio=='ramburs'){
+                //     history.push(`/confirm-ramburs/${buyer}`)
+                // }
+                if (valueRadio=='card de credit'){
                     history.push(`/checkout/${buyer}/`)
                 }
             }
@@ -242,8 +242,13 @@ const PersonalData = () => {
                     <FormControl style={{width:"50%"}}>
                         <RadioGroup aria-label="gender" name="gender1" value={valueRadio} onChange={handleChangePayment}>
                             <FormControlLabel value="card de credit" control={<Radio />} label="Card de credit" />
-                            <FormControlLabel value="ramburs" control={<Radio />} label="Ramburs" />
+                            {/* <FormControlLabel value="ramburs" control={<Radio />} label="Ramburs" /> */}
                         </RadioGroup>
+                        <FormHelperText>
+                            <div>
+                                Din pacate, metoda de ramburs nu este inca disponibila
+                            </div>
+                        </FormHelperText><br></br>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginBottom:30}}>

@@ -83,14 +83,17 @@ function Navbar(props) {
   };
 
   const handleClose = (event) => {
+    setAnchorEl(null);
+    
+
+  };
+  const handleClick=(event)=>{
     const category = event.nativeEvent.target.outerText
     history.push({
       pathname: '/searched-results',
       state:category
     })
-    setAnchorEl(null);
-
-  };
+  }
 
   function handleSearchButton(){
     history.push({
@@ -142,7 +145,7 @@ function Navbar(props) {
       >
         {categories.map((name)=>{
           return(
-            <MenuItem onClick={handleClose}>{name.category}</MenuItem>
+            <MenuItem onClick={handleClick}>{name.category}</MenuItem>
           )
         })}
       </Menu>
