@@ -7,7 +7,7 @@ const Footer = () => {
                 <Grid style={{paddingLeft:50,display:'inline-block',paddingTop:50}} item xs ={12}>
                     {/* <img className="title" height={100} width={100} src="/static/images/101 toBuy (2).png"></img> */}
                         
-                        <Typography style={{fontWeight:'bold'}} className="title" variant='h2'>101 toBuy</Typography>
+                        <Typography style={{fontWeight:'bold'}} className="title" variant='h2'>BookPark</Typography>
                         
                         <div className="media-links-container" align="center">
                             <Typography variant="h4" style={{display:'inline-block',paddingRight:40}}>

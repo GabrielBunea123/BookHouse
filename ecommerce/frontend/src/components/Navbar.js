@@ -111,7 +111,7 @@ function Navbar(props) {
   return (
     <div>
       <div className={sidebar==false ? "topnav" : "topnav responsive"} class="topnav" id="myTopnav">
-        <a className="topnav-links logo" href="/">Home</a>
+        <a className="topnav-links logo" href="/">BookPark</a>
         <a className="topnav-links" href={buyer!=''?`/favourite-products/${buyer}`:`/favourite-products/1`}>Produse Favorite <i class="fas fa-star"></i></a>
         <a className="topnav-links categories" onClick={handleMenu}>Categorii <i class="fas fa-book"></i></a>
         <a className="topnav-links cart" href="/cart">Cos de cumparaturi <i class="fas fa-shopping-cart"></i></a>

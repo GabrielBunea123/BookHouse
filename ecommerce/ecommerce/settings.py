@@ -168,8 +168,8 @@ STRIPE_SECRET_KEY = 'sk_test_51JQpMJBL4rqcbP3BnZQnXcS7wDK3TBEd1wXWASFgriBS7ZIBl8
 
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'gabrielbunea807@gmail.com'
-EMAIL_HOST_PASSWORD = 'siandctruobnyaeo'
+EMAIL_HOST_USER = 'bookpark.8@gmail.com'
+EMAIL_HOST_PASSWORD = 'eqichhnnoluwslsp'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

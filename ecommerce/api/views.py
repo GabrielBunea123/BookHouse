@@ -306,7 +306,7 @@ class PaymentHandleView(APIView):
                     )
                     table=''
                     for item in cart:
-                        str2=f'Id: {item.product_id}\nNume: {item.name}\n Cantitate: {item.quantity}\n\n'
+                        str2=f'Id: {item.product_id}\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
                         table=table+str2
                     #id nume cantitate 
                     body=f"""{personalData.firstName} {personalData.lastName}, tranzacția ta a fost acceptata.
@@ -337,7 +337,7 @@ Mulțumim pentru că ai ales serviciile noastre."""
                     'Confirmare plata',
                     body,
                     settings.EMAIL_HOST_USER,
-                    [f'{personalData.email}'],
+                    [f'{personalData.email}','gabriel.bunea1@yahoo.com'],
                     fail_silently=False,
                     )
                     cart.delete()
@@ -402,7 +402,7 @@ class ConfirmRamburs(APIView):
 
                 table=''
                 for item in cart:
-                    str2=f'Id: {item.product_id}\n Nume: {item.name}\n Cantitate: {item.quantity}\n\n'
+                    str2=f'Id: {item.product_id}\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
                     table=table+str2
                 # pass
                 body = f'''{personalData.firstName} {personalData.lastName}, comanda ta a fost plasata cu succces.
@@ -433,7 +433,7 @@ Mulțumim pentru că ai ales serviciile noastre.
                 'Confiramre Livrare',
                     body,
                 settings.EMAIL_HOST_USER,
-                [f'{personalData.email}'],
+                [f'{personalData.email}','gabriel.bunea1@yahoo.com'],
                 fail_silently=False,
                 )
 
