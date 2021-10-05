@@ -313,7 +313,7 @@ const ProductDetails = (props) => {
                     </Typography>
                 </Card>
                 <Typography style={{marginTop:5}} variant="h6" component="h6">
-                    Plata cu cardul <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-amex"></i> <i class="fab fa-cc-discover"></i>
+                    Plata numai cu cardul <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-amex"></i> <i class="fab fa-cc-discover"></i>
                 </Typography>
 
             </Grid>
