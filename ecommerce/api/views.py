@@ -298,7 +298,7 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    stripe.PaymentMethod.create(
+                    paymentMethod = stripe.PaymentMethod.create(
                     type="card",
                     card={
                         "number": "4140497039818365",
