@@ -10,7 +10,7 @@ import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("pk_test_51JQpMJBL4rqcbP3BPR5jnnDPPlpiAGIjyurgrNELzYAOKlN7j0apcxrz4RC33ZEVyYF8NZDjUeHaCxoeZcBrF9hI00QnV61k9c");
+const stripePromise = loadStripe("pk_live_51JQpMJBL4rqcbP3Bb26TMtgyX1ya6yFNxbmml6ZPuWjiWAY9adFlsEat3DAXwXjPBIS5LKoRwBgwiaI7BJIrLnSr00gmozuGVd");
 // import {CardElement, ElementsConsumer} from '@stripe/react-stripe-js';
 const CARD_OPTIONS = {
 	iconStyle: "solid",
