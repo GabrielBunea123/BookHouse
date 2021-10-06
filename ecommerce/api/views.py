@@ -298,7 +298,7 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    paymentIntent = stripe.Charge.create(
+                    paymentIntent = stripe.PaymentIntent.create(
                         amount=price*100+1500,
                         currency="RON",
                         payment_method=payment_id,
