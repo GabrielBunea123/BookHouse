@@ -298,12 +298,13 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    paymentIntent = stripe.PaymentIntent.create(
-                        amount=price*100+1500,
-                        currency="RON",
-                        payment_method=payment_id,
-                        confirm=True
-                    )
+                    if 'payment_id' in serializer:
+                        paymentIntent = stripe.PaymentIntent.create(
+                            amount=price*100+1500,
+                            currency="RON",
+                            payment_method=serializer['payment_id'],
+                            confirm=True
+                        )
                     table=''
                     for item in cart:
                         str2=f'Id: {item.product_id}\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
