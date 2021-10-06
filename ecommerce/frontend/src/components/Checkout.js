@@ -9,8 +9,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("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");
-const stripesecret = require('stripe')('sk_test_51JQpMJBL4rqcbP3BnZQnXcS7wDK3TBEd1wXWASFgriBS7ZIBl86N7RoBcELbFnI1lBpuDri65qJNYXMR8tqLTBD400VnkSn1sg');
+const stripePromise = loadStripe("pk_live_51JQpMJBL4rqcbP3Bb26TMtgyX1ya6yFNxbmml6ZPuWjiWAY9adFlsEat3DAXwXjPBIS5LKoRwBgwiaI7BJIrLnSr00gmozuGVd");
+const stripesecret = require('stripe')('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');
 // import {CardElement, ElementsConsumer} from '@stripe/react-stripe-js';
 const CARD_OPTIONS = {
 	iconStyle: "solid",
