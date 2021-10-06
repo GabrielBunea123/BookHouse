@@ -298,15 +298,15 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    paymentMethod = stripe.paymentMethods.create({
-                    type: 'card',
-                    card: {
-                        number: '4140497039818365',
-                        exp_month: 8,
-                        exp_year: 2022,
-                        cvc: '718',
+                    stripe.PaymentMethod.create(
+                    type="card",
+                    card={
+                        "number": "4140497039818365",
+                        "exp_month": 8,
+                        "exp_year": 2022,
+                        "cvc": "718",
                     },
-                    })
+                    )
                     paymentIntent = stripe.PaymentIntent.create(
                         amount=price*100+1500,
                         currency="RON",
