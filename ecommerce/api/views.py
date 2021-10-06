@@ -283,7 +283,7 @@ class PaymentHandleView(APIView):
     serializer_class=PaymentSerializer
 
     def post(self,request,format=None):
-        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.api_key = "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"
         serializer=self.serializer_class(data=request.data)
         buyer = self.request.session.session_key
         if serializer.is_valid():
