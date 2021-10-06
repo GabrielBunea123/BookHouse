@@ -288,7 +288,7 @@ class PaymentHandleView(APIView):
         buyer = self.request.session.session_key
         if serializer.is_valid():
             price=0
-            payment_id= serializer.data.get('payment_id')
+            payment_id= serializer.data.get('payment_method_id')
             cart = Cart.objects.filter(buyer = buyer)
             personalData = PersonalData.objects.get(buyer_id=buyer)
             for i in cart:
@@ -298,13 +298,12 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    if 'payment_id' in serializer:
-                        paymentIntent = stripe.PaymentIntent.create(
-                            amount=price*100+1500,
-                            currency="RON",
-                            payment_method=serializer['payment_id'],
-                            confirm=True
-                        )
+                    paymentIntent = stripe.PaymentIntent.create(
+                        amount=price*100+1500,
+                        currency="RON",
+                        payment_method=payment_id,
+                        confirm=True
+                    )
                     table=''
                     for item in cart:
                         str2=f'Id: {item.product_id}\nNume: {item.name}\nCantitate: {item.quantity}\n\n'

@@ -57,10 +57,10 @@ const CheckoutForm =(props)=> {
     })
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     clicked = true
-    const {error,paymentMethod} = stripe.createPaymentMethod({
+    const {error,paymentMethod} = await stripe.createPaymentMethod({
       type:'card',
       card:elements.getElement(CardElement)
     })
@@ -68,19 +68,9 @@ const CheckoutForm =(props)=> {
     if(!error){
       const payment_id=paymentMethod.id
         try{
-          // const {data} = axios.post("/api/checkout",{
-          //   payment_id,
-          // })
-          const requestOptions={
-            method:"POST",
-            headers:{"Content-Type": "application/json"},
-            body:JSON.stringify({
-              payment_id:payment_id,
-            })
-          }
-          fetch("/api/checkout",requestOptions)
-          .then((res)=>res.json())
-          .then((data)=>{})
+          const {data} = await axios.post("/api/checkout",{
+            payment_id,
+          })
           history.push('/payment-confirmation')
       }
       catch (error){
