@@ -57,10 +57,10 @@ const CheckoutForm =(props)=> {
     })
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     clicked = true
-    const {error,paymentMethod} = await stripe.createPaymentMethod({
+    const {error,paymentMethod} = stripe.createPaymentMethod({
       type:'card',
       card:elements.getElement(CardElement)
     })
