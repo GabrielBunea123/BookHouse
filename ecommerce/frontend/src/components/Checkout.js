@@ -10,6 +10,7 @@ import { AiOutlineConsoleSql } from 'react-icons/ai';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe("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");
+const stripesecret = require('stripe')('sk_test_51JQpMJBL4rqcbP3BnZQnXcS7wDK3TBEd1wXWASFgriBS7ZIBl86N7RoBcELbFnI1lBpuDri65qJNYXMR8tqLTBD400VnkSn1sg');
 // import {CardElement, ElementsConsumer} from '@stripe/react-stripe-js';
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -60,10 +61,14 @@ const CheckoutForm =(props)=> {
   const handleSubmit = async (event) => {
     event.preventDefault();
     clicked = true
-    const {error,paymentMethod} = await stripe.createPaymentMethod({
-      type:'card',
-      card:elements.getElement(CardElement)
-    })
+    // const {error,paymentMethod} = await stripe.createPaymentMethod({
+    //   type:'card',
+    //   card:elements.getElement(CardElement)
+    // })
+    const paymentMethod = await stripesecret.paymentMethods.create({
+      type: 'card',
+      card: elements.getElement(CardElement)
+    });
     //get the cart data
     if(!error){
       const payment_id=paymentMethod.id
