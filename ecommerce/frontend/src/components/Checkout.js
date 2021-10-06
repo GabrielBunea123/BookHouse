@@ -64,14 +64,14 @@ const CheckoutForm =(props)=> {
       type:'card',
       card:elements.getElement(CardElement)
     })
-    const payment_id=paymentMethod.id
-    const {data} = await axios.post("/api/checkout",{
-      payment_id,
-      // amount:1099
-    })
     //get the cart data
     if(!error){
+      const payment_id=paymentMethod.id
         try{
+          const {data} = await axios.post("/api/checkout",{
+            payment_id,
+          })
+          console.log(payment_id)
           history.push('/payment-confirmation')
       }
       catch (error){
