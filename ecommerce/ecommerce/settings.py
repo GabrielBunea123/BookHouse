@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-yjn14l5tbr$bt^85tc14r*m!ts790on4rr64ui$m+b(ks3@_$n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://tobuycopy-101.herokuapp.com','http://127.0.0.1:8000/','www.bookhouse.store','bookhouse.store']
+ALLOWED_HOSTS = ['https://tobuycopy-101.herokuapp.com','127.0.0.1:8000','www.bookhouse.store','bookhouse.store']
 
 
 # Application definition
@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     # 'corsheaders',
 ]
 CORS_ORIGIN_WHITELIST = (
-    # 'https://127.0.0.1:8000',
+
+    'https://127.0.0.1:8000',
     'https://tobuycopy-101.herokuapp.com/'
     'http://tobuycopy-101.herokuapp.com/'
 )
