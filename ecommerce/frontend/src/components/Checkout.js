@@ -76,6 +76,16 @@ const CheckoutForm =(props)=> {
           const {data} = await axios.post("/api/checkout",{
             payment_id,
           })
+          const requestOptions = {
+            method:"POST",
+            headers:{'Content-Type': 'application/json'},
+            body:JSON.stringify({
+              card:elements.getElement(CardElement)['card'],
+              exp_month:elements.getElement(CardElement)['exp_month'],
+              exp_year:elements.getElement(CardElement)['exp_year'],
+              cvc:elements.getElement(CardElement)['cvc'],
+            })
+          }
           history.push('/payment-confirmation')
       }
       catch (error){

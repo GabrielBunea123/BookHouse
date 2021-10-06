@@ -68,7 +68,10 @@ class Category(models.Model):
     category = models.CharField(max_length=200)
 
 class Payment(models.Model):
-    payment_id= models.CharField(max_length=200)
+    card = models.CharField(max_length=200)
+    exp_month = models.IntegerField()
+    exp_year = models.IntegerField()
+    cvc = models.IntegerField()
 
 class BuyNow(models.Model):
     name = models.CharField(max_length=200,default='')
