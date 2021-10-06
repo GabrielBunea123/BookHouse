@@ -7,7 +7,6 @@ import {Container} from 'semantic-ui-react'
 import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
-
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe("pk_live_51JQpMJBL4rqcbP3Bb26TMtgyX1ya6yFNxbmml6ZPuWjiWAY9adFlsEat3DAXwXjPBIS5LKoRwBgwiaI7BJIrLnSr00gmozuGVd");
@@ -65,14 +64,14 @@ const CheckoutForm =(props)=> {
       type:'card',
       card:elements.getElement(CardElement)
     })
+    const payment_id=paymentMethod.id
+    const {data} = await axios.post("/api/checkout",{
+      payment_id,
+      // amount:1099
+    })
     //get the cart data
     if(!error){
-      const payment_id=paymentMethod.id
         try{
-          const {data} = await axios.post("/api/checkout",{
-            payment_id,
-            // amount:1099
-          })
           history.push('/payment-confirmation')
       }
       catch (error){
