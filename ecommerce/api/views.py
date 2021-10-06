@@ -288,7 +288,7 @@ class PaymentHandleView(APIView):
         buyer = self.request.session.session_key
         if serializer.is_valid():
             price=0
-            payment_id= serializer.data.get('payment_method_id')
+            payment_id= serializer.data.get('payment_id')
             cart = Cart.objects.filter(buyer = buyer)
             personalData = PersonalData.objects.get(buyer_id=buyer)
             for i in cart:
