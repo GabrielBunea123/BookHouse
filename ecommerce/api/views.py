@@ -298,11 +298,24 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    paymentIntent = stripe.PaymentIntent.create(
-                        amount=price*100+1500,
-                        currency="RON",
-                        payment_method=payment_id,
-                        confirm=True
+                    # paymentIntent = stripe.PaymentIntent.create(
+                    #     amount=price*100+1500,
+                    #     currency="RON",
+                    #     payment_method=payment_id,
+                    #     confirm=True
+                    # )
+                    session = stripe.checkout.Session.create(
+                        payment_method_types=['card'],
+                        line_items=[{
+                        'price_data': {
+                            'currency': 'RON',
+                            'product_data': {
+                            'name': 'Payment',
+                            },
+                            'unit_amount': price*100+1500,
+                        },
+                        }],
+                        mode='payment',
                     )
                     table=''
                     for item in cart:
