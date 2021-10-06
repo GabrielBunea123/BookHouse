@@ -9,7 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe("pk_live_51JQpMJBL4rqcbP3Bb26TMtgyX1ya6yFNxbmml6ZPuWjiWAY9adFlsEat3DAXwXjPBIS5LKoRwBgwiaI7BJIrLnSr00gmozuGVd");
+const stripePromise = loadStripe("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");
 // import {CardElement, ElementsConsumer} from '@stripe/react-stripe-js';
 const CARD_OPTIONS = {
 	iconStyle: "solid",
@@ -71,9 +71,6 @@ const CheckoutForm =(props)=> {
           const {data} = await axios.post("/api/checkout",{
             payment_id,
           })
-          const { error } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: paymentMethod.id
-          });
           history.push('/payment-confirmation')
       }
       catch (error){
