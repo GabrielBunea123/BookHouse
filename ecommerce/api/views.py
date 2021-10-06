@@ -354,7 +354,7 @@ Mulțumim pentru că ai ales serviciile noastre."""
                     fail_silently=False,
                     )
                     cart.delete()
-                    return Response(paymentIntent, status=status.HTTP_200_OK)
+                    return Response(session, status=status.HTTP_200_OK)
             except:
                 return Response({"Bas Request":"Error occured"},status=status.HTTP_400_BAD_REQUEST)
             return Response({"Bad request":"No items to pay"},status=status.HTTP_404_NOT_FOUND)
