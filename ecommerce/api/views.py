@@ -302,8 +302,8 @@ class PaymentHandleView(APIView):
                     paymentIntent = stripe.PaymentIntent.create(
                         amount=price*100+1500,
                         currency="RON",
-                        # payment_method=payment_id,
-                        # confirm=True,
+                        payment_method=payment_id,
+                        confirm=True,
                     )
                     table=''
                     for item in cart:
