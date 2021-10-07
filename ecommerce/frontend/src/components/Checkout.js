@@ -77,11 +77,15 @@ const CheckoutForm =(props)=> {
             body:JSON.stringify({
               payment_id: payment_id,
             })
-          }).then((res)=>res.json())
-
-          stripe.confirmCardPayment(data,{
-            payment_method:payment_id
+          }).then((res)=>{
+            stripe.confirmCardPayment(res.json(),{
+              payment_method:payment_id
+            })
           })
+
+          // stripe.confirmCardPayment(data,{
+          //   payment_method:payment_id
+          // })
           history.push('/payment-confirmation')
       }
       catch (error){
