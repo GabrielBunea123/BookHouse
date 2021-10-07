@@ -32,7 +32,7 @@ const CARD_OPTIONS = {
 }
 const CheckoutForm =(props)=> {
   const history = useHistory();
-  const stripe=useStripe()
+  const stripe=useStripe('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')
   // const stripesecret = require('stripe')("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")
   var clicked = false
   const elements = useElements()
