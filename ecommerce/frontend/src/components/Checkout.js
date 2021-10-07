@@ -32,8 +32,7 @@ const CARD_OPTIONS = {
 }
 const CheckoutForm =(props)=> {
   const history = useHistory();
-  const stripe=useStripe('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')
-  // const stripesecret = require('stripe')("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")
+  const stripe=useStripe()
   var clicked = false
   const elements = useElements()
   const [cart,setCart] = useState([])
@@ -71,6 +70,11 @@ const CheckoutForm =(props)=> {
         try{
           const {data} = await axios.post("/api/checkout",{
             payment_id,
+          })
+          stripe.confirmCardPayment(data,{
+            payment_method:{
+              card: elements.getElement(CardElement)
+            }
           })
           history.push('/payment-confirmation')
       }
