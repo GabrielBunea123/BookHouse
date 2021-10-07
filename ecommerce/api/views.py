@@ -302,6 +302,7 @@ class PaymentHandleView(APIView):
                     paymentIntent = stripe.PaymentIntent.create(
                         amount=price*100+1500,
                         currency="RON",
+                        payment_method_type='card'
                         # payment_method=payment_id,
                         # confirm=True,
                     )
