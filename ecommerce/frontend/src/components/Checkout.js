@@ -60,19 +60,20 @@ const CheckoutForm =(props)=> {
   const handleSubmit = async (event) => {
     event.preventDefault();
     clicked = true
-    const paymentMethod = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement)
-    });
     //get the cart data
     if(!error){
         const payment_id=paymentMethod.paymentMethod.id
         try{
-          const {data} = await axios.post("/api/checkout",{
+          const paymentMethod = await stripe.createPaymentMethod({
+            type: 'card',
+            card: elements.getElement(CardElement)
+          });
+          
+          const {data:clientSecret} = await axios.post("/api/checkout",{
             payment_id,
           })
 
-          stripe.confirmCardPayment(data,{
+          stripe.confirmCardPayment(clientSecret,{
             payment_method:payment_id
           })
           history.push('/payment-confirmation')
