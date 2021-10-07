@@ -68,9 +68,17 @@ const CheckoutForm =(props)=> {
     if(!error){
         const payment_id=paymentMethod.paymentMethod.id
         try{
-          const {data} = await axios.post("/api/checkout",{
-            payment_id,
-          })
+          // const {data} = await axios.post("/api/checkout",{
+          //   payment_id,
+          // })
+          const {data} = await fetch('/api/checkout',{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body:JSON.stringify({
+              payment_id: payment_id,
+            })
+          }).then((res)=>res.json())
+          
           stripe.confirmCardPayment(data,{
             payment_method:{
               card: elements.getElement(CardElement)
