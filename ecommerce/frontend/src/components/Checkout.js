@@ -33,6 +33,7 @@ const CARD_OPTIONS = {
 const CheckoutForm =(props)=> {
   const history = useHistory();
   const stripe=useStripe()
+  // const stripesecret = require('stripe')("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")
   var clicked = false
   const elements = useElements()
   const [cart,setCart] = useState([])
@@ -60,32 +61,17 @@ const CheckoutForm =(props)=> {
   const handleSubmit = async (event) => {
     event.preventDefault();
     clicked = true
-    // const {error,paymentMethod} = await stripe.createPaymentMethod({
-    //   type:'card',
-    //   card:elements.getElement(CardElement)
-    // })
-    const stripesecret = require('stripe')('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');
-    const paymentMethod = await stripesecret.paymentMethods.create({
+    const paymentMethod = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)
     });
     //get the cart data
     if(!error){
-      const payment_id=paymentMethod.id
+        const payment_id=paymentMethod.paymentMethod.id
         try{
           const {data} = await axios.post("/api/checkout",{
             payment_id,
           })
-          const requestOptions = {
-            method:"POST",
-            headers:{'Content-Type': 'application/json'},
-            body:JSON.stringify({
-              card:elements.getElement(CardElement)['card'],
-              exp_month:elements.getElement(CardElement)['exp_month'],
-              exp_year:elements.getElement(CardElement)['exp_year'],
-              cvc:elements.getElement(CardElement)['cvc'],
-            })
-          }
           history.push('/payment-confirmation')
       }
       catch (error){
