@@ -72,10 +72,6 @@ const CheckoutForm =(props)=> {
           const {data:clientSecret} = await axios.post("/api/checkout",{
             payment_id,
           })
-
-          stripe.confirmCardPayment(clientSecret,{
-            payment_method:payment_id
-          })
           history.push('/payment-confirmation')
       }
       catch (error){
