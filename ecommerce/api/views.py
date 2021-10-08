@@ -299,8 +299,8 @@ class PaymentHandleView(APIView):
                 product.save()
             try:
                 if cart!=None:
-                    paymentIntent = stripe.paymentIntents.create(
-                        amount=price*100+1500,
+                    paymentIntent = stripe.PaymentIntent.create(
+                        amount=price*100,
                         currency="RON",
                     )
                     table=''
