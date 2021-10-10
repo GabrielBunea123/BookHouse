@@ -169,8 +169,8 @@ STRIPE_SECRET_KEY="sk_live_51JQpMJBL4rqcbP3BSG754dbdQHZg5Epc9052pT6lBTYM3bm52Cr2
 
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'bookpark.8@gmail.com'
-EMAIL_HOST_PASSWORD = 'eqichhnnoluwslsp'
+EMAIL_HOST_USER = 'bookhouse356@gmail.com'
+EMAIL_HOST_PASSWORD = 'haxasxagsbroetib'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

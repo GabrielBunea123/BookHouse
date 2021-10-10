@@ -338,7 +338,7 @@ Mulțumim pentru că ai ales serviciile noastre."""
                     'Confirmare plata',
                     body,
                     settings.EMAIL_HOST_USER,
-                    [f'{personalData.email}','gabriel.bunea1@yahoo.com'],
+                    [f'{personalData.email}','bookpark8@gmail.com'],
                     fail_silently=False,
                     )
                     cart.delete()
@@ -506,7 +506,7 @@ class Contact(APIView):
             'Feedback mail',
             f'{email}\n\n\n {body}',
             settings.EMAIL_HOST_USER,
-            [f'gabriel.bunea1@yahoo.com'],
+            [f'bookpark8@gmail.com'],
             fail_silently=False,
             )
             return Response({'OK':"200"},status = status.HTTP_200_OK)
