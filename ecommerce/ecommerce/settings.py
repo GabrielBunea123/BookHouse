@@ -176,10 +176,10 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# CORS_ORIGIN_WHITELIST=[
-#     'https://tobuycopy-101.herokuapp.com/'
-#     'http://tobuycopy-101.herokuapp.com/'
-# ]
+CORS_ORIGIN_WHITELIST=[
+    'https://tobuycopy-101.herokuapp.com/'
+    'http://tobuycopy-101.herokuapp.com/'
+]
 
 
 
