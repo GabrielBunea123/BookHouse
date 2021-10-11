@@ -48,6 +48,7 @@ const HomePage = (props) => {
                 <Route path='/searched-results' component={SearchedResults} />
                 <Route path="/contact-support" component={Contact} />
                 <Route path="/confirm-ramburs/:buyer_id" component={ConfirmRamburs}/>
+                <Route path="*" component={NotFound}></Route>
 
             </Switch>
             <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
