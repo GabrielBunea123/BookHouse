@@ -61,7 +61,7 @@ const ITEM_PADDING_TOP = 8;
 
 const AddProductPage = (props) => {
     const classes=useStyles()
-    const [currency, setCurrency] = React.useState('EUR');
+    const [currency, setCurrency] = React.useState('RON');
     const [name,setName] = React.useState('');
     const [description,setDescription] = useState("")
     const [price,setPrice] = useState(0)
