@@ -357,7 +357,7 @@ const ProductDetails = (props) => {
                         />
                     </Box>
                     <FormControl style={{width:'70%'}}>
-                        <TextField value={reviewInput} onChange={reviewInputChange} fullWidth id="outlined-search" label="Aduga o parere" type="search" variant="outlined" inputLabelProps={{ required: true }} multiline rows={3}></TextField>
+                        <TextField value={reviewInput} onChange={reviewInputChange} fullWidth id="outlined-search" label="Adauga o parere" type="search" variant="outlined" inputLabelProps={{ required: true }} multiline rows={3}></TextField>
                     </FormControl>
                     
                     </Grid>
