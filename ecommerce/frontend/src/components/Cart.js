@@ -119,7 +119,7 @@ const Cart = () => {
                         }} value="Increase Value">+</div>
                       </StyledTableCell>
                       <StyledTableCell align="right">{product.price}</StyledTableCell>
-                      <StyledTableCell align="right">{product.currency}</StyledTableCell>
+                      <StyledTableCell align="right">RON</StyledTableCell>
                       <StyledTableCell align="right"><Button onClick={()=>{
                           const requestOptions = {
                             method: 'POST',
