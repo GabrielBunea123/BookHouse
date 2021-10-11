@@ -9,8 +9,6 @@ import stripe
 from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework.permissions import  IsAdminUser
-# from django.core.validators import validate_email
-# from validate_email import validate_email
 
 # Create your views here.
 
@@ -385,8 +383,6 @@ class PersonalDataView(APIView):
 class ConfirmRamburs(APIView):
     serializer_class = PersonalDataSerializer
     def get(self,request):
-        # serializer = self.serializer_class(data = request.data)
-        # if serializer.is_valid():
             
         personalDataAll = PersonalData.objects.all()
         buyer_id = self.request.session.session_key
