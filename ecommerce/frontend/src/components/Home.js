@@ -152,7 +152,7 @@ const Home = (props) => {
           <div class='banner'>
               <div class='banner-text'>
                   <Typography component="h1" variant="h1">Book House</Typography>
-                  {/* <Typography component="p" variant="h6">Best book buying website</Typography> */}
+                  <Typography component="p" variant="h6">Read more, pay less</Typography>
               </div>
           </div>
           {/* {renderCategories()} */}
