@@ -96,10 +96,12 @@ function Navbar(props) {
   }
 
   function handleSearchButton(){
-    history.push({
-      pathname: '/searched-results',
-      state:searched
-    })
+    if(searched!=''){
+      history.push({
+        pathname: '/searched-results',
+        state:searched
+      })
+    }
   }
   function handleOnChangeSearch(event){
     setSearched(event.target.value);
