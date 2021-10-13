@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-yjn14l5tbr$bt^85tc14r*m!ts790on4rr64ui$m+b(ks3@_$n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://tobuycopy-101.herokuapp.com','127.0.0.1:8000','www.bookhouse.store','bookhouse.store']
+ALLOWED_HOSTS = ['https://tobuycopy-101.herokuapp.com','https://127.0.0.1:8080/','www.bookhouse.store','bookhouse.store']
 
 
 # Application definition
@@ -176,10 +176,6 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-CORS_ORIGIN_WHITELIST=[
-    'https://tobuycopy-101.herokuapp.com/'
-    'http://tobuycopy-101.herokuapp.com/'
-]
 
 
 
@@ -202,11 +198,3 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
-
-
-# if os.getcwd()=='/app':
-#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO','https')
-#     SECURE_SSL_REDIRECT = True
-#     DEBUG = False
-
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
