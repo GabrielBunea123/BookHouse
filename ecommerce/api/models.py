@@ -14,6 +14,8 @@ class Product(models.Model):
     category = models.CharField(max_length=200)
     stock = models.IntegerField(default=0,blank=True,null=True)
     rating = models.IntegerField(default=0,blank=True,null=True)
+    regislat = models.BooleanField(default=False,blank=True,null=True)
+    
 class ProductImage(models.Model):
     image = models.FileField(upload_to='product_images/',default='',blank=True)
     product_id = models.IntegerField(blank=True,null=True)
@@ -45,8 +47,7 @@ class PersonalData(models.Model):
     firstName= models.CharField(max_length=200)
     lastName=models.CharField(max_length=200)
     email = models.CharField(max_length=200)
-    street = models.CharField(max_length=200)
-    number = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
     county = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     buyer_id = models.CharField(max_length=200)

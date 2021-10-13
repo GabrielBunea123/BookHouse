@@ -318,8 +318,7 @@ va/vor fi livrat/e în Romania la adresa:
 Județ: {personalData.county} 
 Oras: {personalData.city} 
 Cod postal: {personalData.postal_code}
-Strada: {personalData.street} 
-Număr: {personalData.number} 
+Adresa: {personalData.address}
 Bloc: {personalData.block}
 Scara: {personalData.scara} 
 Apartament: {personalData.apartment}.
@@ -354,8 +353,7 @@ class PersonalDataView(APIView):
             firstName= serializer.data.get('firstName')
             lastName= serializer.data.get('lastName')
             email= serializer.data.get('email')
-            street= serializer.data.get('street')
-            number= serializer.data.get('number')
+            address = serializer.data.get('address')
             county= serializer.data.get('county')
             city= serializer.data.get('city')
             phone = serializer.data.get('phone')
@@ -373,7 +371,7 @@ class PersonalDataView(APIView):
                 if buyer_id==i.buyer_id:
                     i.delete()      
             personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
-            street=street,number=number,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
+            address=address,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
 
             personalData.save()
             return Response({"ok":"ok"}, status=status.HTTP_200_OK)
@@ -411,8 +409,7 @@ va/vor fi livrat/e în Romania la adresa:
 Județ: {personalData.county}
 Oras: {personalData.city} 
 Cod postal:{personalData.postal_code}
-Strada: {personalData.street}
-Număr: {personalData.number}
+Adresa: {personalData.address}
 Bloc: {personalData.block} 
 Scara: {personalData.scara}
 Apartament: {personalData.apartment}.

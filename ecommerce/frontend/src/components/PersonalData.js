@@ -24,7 +24,7 @@ const PersonalData = () => {
     const [firstName,setFirstName]=useState("")
     const [lastName,setLastName]=useState("")
     const [email,setEmail]=useState("")
-    const [street,setStreet]=useState("")
+    const [address,setAddress]=useState("")
     const [number,setNumber]=useState("")
     const [county,setCounty]=useState("")
     const [city,setCity] = useState("")
@@ -55,8 +55,7 @@ const PersonalData = () => {
                 firstName:firstName,
                 lastName:lastName,
                 email:email,
-                street:street,
-                number:number,
+                address:address,
                 county:county,
                 city:city,
                 phone:phone,
@@ -106,11 +105,8 @@ const PersonalData = () => {
     const handleEmailChange=(event)=>{
         setEmail(event.target.value)
     }
-    const handleStreetChange=(event)=>{
-        setStreet(event.target.value)
-    }
-    const handleNumberChange=(event)=>{
-        setNumber(event.target.value)
+    const handleAddressChange=(event)=>{
+        setAddress(event.target.value)
     }
     const handleCountyChange=(event)=>{
         setCounty(event.target.value)
@@ -188,11 +184,9 @@ const PersonalData = () => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center">
-                    <TextField helperText={error} error={error} required onChange={handleStreetChange} style={{width:"45%"}} 
-                        fullWidth label="Strada"
+                    <TextField helperText={error} error={error} required onChange={handleAddressChange} style={{width:"50%"}} 
+                        fullWidth label="Adresa"
                         />
-                    <TextField helperText={error} error={error} required onChange={handleNumberChange} style={{width:"5%",marginLeft:'4px'}} label="Nr">
-                    </TextField>
                 </Grid>
                 <Grid item xs={12} align="center">
                     <TextField required={scara!==''} helperText={error} error={error} onChange={handleBlockedChange} style={{width:"16.5%"}} 
