@@ -61,13 +61,13 @@ const CheckoutForm =(props)=> {
     event.preventDefault();
     clicked = true
     //get the cart data
+    const [error,paymentMethod] = await stripe.createPaymentMethod({
+      type: 'card',
+      card: elements.getElement(CardElement)
+    });
     if(!error){
         try{
-          const paymentMethod = await stripe.createPaymentMethod({
-            type: 'card',
-            card: elements.getElement(CardElement)
-          });
-          const payment_id=paymentMethod.paymentMethod.id
+          const payment_id=paymentMethod.id
 
           const {data:clientSecret} = await axios.post("/api/checkout",{
             payment_id,
