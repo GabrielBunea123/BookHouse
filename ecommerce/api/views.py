@@ -434,6 +434,7 @@ Mulțumim pentru că ai ales serviciile noastre.
             return Response({"ok":"ok"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+ 
             
 class AddReview(APIView):
     serializer_class = ReviewSerializer
