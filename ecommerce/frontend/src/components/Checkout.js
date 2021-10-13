@@ -62,22 +62,23 @@ const CheckoutForm =(props)=> {
     clicked = true
     //get the cart data
     if(!stripe || !elements){
-        try{
-          const {error,paymentMethod} = await stripe.createPaymentMethod({
-            type: 'card',
-            card: elements.getElement(CardElement)
-          });
-          const payment_id=paymentMethod.id
+      history.push('/payment-confirmation-error')
+    }
+      try{
+        const {error,paymentMethod} = await stripe.createPaymentMethod({
+          type: 'card',
+          card: elements.getElement(CardElement)
+        });
+        const payment_id=paymentMethod.id
 
-          const {data:clientSecret} = await axios.post("/api/checkout",{
-            payment_id,
-          })
-          history.push('/payment-confirmation')
+        const {data:clientSecret} = await axios.post("/api/checkout",{
+          payment_id,
+        })
+        history.push('/payment-confirmation')
       }
       catch (error){
         history.push('/payment-confirmation-error')
       }
-    }
   };
 
     return (
