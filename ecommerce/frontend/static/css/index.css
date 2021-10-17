@@ -24,6 +24,7 @@ body {
   left: 0;
   right: 0;
   height: 180px;
+  width: 100%;
   background-color: rgb(233, 233, 233);
 }
 .title{
@@ -31,6 +32,7 @@ body {
   padding-top:20px;
   display: inline-block;
   color:#f7890c;
+  text-align: center;
 }
 .media-links-container{
   display: inline-block;
@@ -46,24 +48,16 @@ body {
 
 }
 @media screen and (max-width: 990px) {
-  .footer-container{
-    height:210px;
-  }
   .title{
     padding-top:0;
     padding:0;
-    
-  }
-  .contact-support{
-    float:none;
     text-align:center;
-    display: block;
-  
+    
   }
 }
 @media screen and (max-width: 750px) {
   .footer-container{
-    height:250px;
+    height:290px;
   }
   .title{
     display:block;
@@ -74,6 +68,12 @@ body {
     display:block;
     text-align:center;
     margin-left:0;
+  }
+  .contact-support{
+    float:none;
+    text-align:center;
+    display: block;
+  
   }
 }
 @media screen and (max-width: 310px) {
