@@ -315,7 +315,10 @@ const ProductDetails = (props) => {
                 <Typography style={{marginTop:5}} variant="h6" component="h6">
                     Plata numai cu cardul <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-amex"></i> <i class="fab fa-cc-discover"></i>
                 </Typography>
-
+                {product.regislat?<Typography style={{marginTop:5,color:'#f7890c'}} variant="h6" component="h6">Produsul este regislat</Typography>:null}
+                <Typography variant="div" component="div" style={{color:'1a0350',marginTop:5}}>
+                    Pret transport 20 RON
+                </Typography>
             </Grid>
             <Grid style={{paddingTop:80}} className='reviews-description-container' item xs={12} align="center">
                 <FormControl style={{width:'98%'}}>

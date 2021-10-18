@@ -129,7 +129,7 @@ body {
   padding-right:30px;
 }
 
-@media screen and (max-width: 865px) {
+@media screen and (max-width: 803px) {
   .topnav-links:not(:first-child) {display: none;}
   .icon {
     float: right;
@@ -670,6 +670,14 @@ body {
 }
 .fav-title-products{
   font-size: 30px;
+}
+.searchWidth{
+  width:70%;
+}
+@media screen and (max-width: 300px) {
+  .searchWidth{
+    width:100%;
+  }
 }
 
 

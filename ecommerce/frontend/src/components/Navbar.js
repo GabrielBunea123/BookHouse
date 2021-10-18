@@ -151,19 +151,12 @@ function Navbar(props) {
           )
         })}
       </Menu>
-        
-        {/* <div className={sidebar==false ? "search-container show-search" : "search-container"}>
-        <form>
-          <input onChange={handleOnChangeSearch} type="text" placeholder="Search" name="search"></input>
-          <Button onClick={handleSearchButton}> <i class="fa fa-search"></i> </Button>
-        </form>
-      </div> */}
     </div>
 
     {/* searchbar */}
 
     <Grid className="searchbar-container" align="center" style={{paddingTop:'7px',paddingBottom:'7px'}} item xs={12}>
-            <FormControl style={{display:'inline-block',width:"70%"}}>
+            <FormControl className="searchWidth" style={{display:'inline-block'}}>
             <Autocomplete
                 className="searchbar"
                 options={products.map((option) => option.name)}

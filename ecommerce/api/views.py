@@ -37,10 +37,11 @@ class AddProduct(APIView):
             currency = serializer.data.get('currency')
             category = serializer.data.get('category')
             stock = serializer.data.get('stock')
+            regislat = serializer.data.get('regislat')
             author = self.request.session.session_key
 
 
-            product = Product(name=name, author=author,stock=stock,image=image[0],
+            product = Product(name=name, author=author,stock=stock,image=image[0],regislat=regislat,
                     description=description,price=price,currency=currency,category=category)
             product.save()
             ProductImage.objects.create(product_id=product.id,image=product.image)

@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
-import {Button,Grid,Typography,TextField,FormControl} from '@material-ui/core'
+import {Button,Grid,Typography,TextField,FormControl,FormHelperText} from '@material-ui/core'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import {makeStyles} from '@material-ui/core/'
 import {Collapse} from '@material-ui/core'
 import {Alert} from "@material-ui/lab"
@@ -8,6 +9,8 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 
 const useStyles = makeStyles({
     root: {
@@ -71,6 +74,8 @@ const AddProductPage = (props) => {
     const [category,setCategory]=useState('')
     const [categories,getAllCategories]=useState([])
     const [stock,setStock]=useState(0)
+    const [regislat,setRegislat]=useState(false)
+    const [regislatString,setRegislatString] = useState('false')
 
     useEffect(() => {
       getCategories();
@@ -97,6 +102,15 @@ const AddProductPage = (props) => {
     const handleStockChange=(event)=>{
       setStock(event.target.value)
     }
+    const handleChangeRegislat=(event)=>{
+      setRegislatString(event.target.value)
+      if(event.target.value=="true"){
+        setRegislat(true)
+      }
+      else{
+        setRegislat(false)
+      }
+    }
 
     function getCategories(){
       fetch("api/category")
@@ -117,6 +131,8 @@ const AddProductPage = (props) => {
       data.append("name",name)
       data.append("category",category)
       data.append("stock",stock)
+      data.append("regislat",regislat)
+      // data.append("regislat",regislat)
   
       axios({
         method: "POST",
@@ -217,6 +233,15 @@ const AddProductPage = (props) => {
                         variant="outlined"  
                         inputProps={{min:1,style:{textAlign:'center',color:"black"}}} />
                 </FormControl>
+            </Grid>
+            <Grid item xs={12} align="center">
+              <FormControl style={{width:"50%"}}>
+                  <RadioGroup aria-label="gender" name="gender1" value={regislatString} onChange={handleChangeRegislat}>
+                      <FormControlLabel value="true" control={<Radio />} label="Regislat" />
+                      <FormControlLabel value="false" control={<Radio />} label="Nou" />
+                      {/* <FormControlLabel value="ramburs" control={<Radio />} label="Ramburs" /> */}
+                  </RadioGroup>
+              </FormControl>
             </Grid>
             <Grid item xs={12} align="center">
             <FormControl variant="filled" className={classes.formControl}>
