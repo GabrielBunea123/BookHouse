@@ -144,34 +144,33 @@ function Navbar(props) {
         }}
         open={open}
         onClose={handleClose}
-      >
+        >
         {categories.map((name)=>{
           return(
             <MenuItem onClick={handleClick}>{name.category}</MenuItem>
           )
         })}
-      </Menu>
-    </div>
+        </Menu>
+      </div>
 
     {/* searchbar */}
 
-    <Grid className="searchbar-container" align="center" style={{paddingTop:'7px',paddingBottom:'7px'}} item xs={12}>
-            <FormControl className="searchWidth" style={{display:'inline-block'}}>
-            <Autocomplete
-                className="searchbar"
-                options={products.map((option) => option.name)}
-                onChange={(event, value) => setSearched(value)}
-                freeSolo
-                id="free-solo-2-demo"
-                disableClearable
-                style={{ width: '60%',verticalAlign:'top'}}
-                renderInput={(params) => <TextField InputProps={{ ...params.InputProps, type: 'search' }} {...params} style={{width:'100%',background:'white'}} fullWidth onChange={handleOnChangeSearch} id="outlined-search" label="Cauta produs" type="search" variant="outlined" />}
-              />
-              {/* <TextField style={{width:'60%',background:'white'}} className="searchbar" fullWidth onChange={handleOnChangeSearch} id="outlined-search" label="Search product" type="search" variant="outlined" /> */}
-              <Button style={{width:'10%',background:"rgb(26, 3, 80)",color:'white',display:"inline-block"}} className={classes.searchBtn} onClick={handleSearchButton}>Cauta</Button>
-            </FormControl>
-            
-          </Grid>
+      <Grid className="searchbar-container" align="center" style={{paddingTop:'7px',paddingBottom:'7px'}} item xs={12}>
+        <FormControl className="searchWidth" style={{display:'inline-block'}}>
+        <Autocomplete
+            className="searchbar"
+            options={products.map((option) => option.name)}
+            onChange={(event, value) => setSearched(value)}
+            freeSolo
+            id="free-solo-2-demo"
+            disableClearable
+            style={{ width: '60%',verticalAlign:'top'}}
+            renderInput={(params) => <TextField InputProps={{ ...params.InputProps, type: 'search' }} {...params} style={{width:'100%',background:'white'}} fullWidth onChange={handleOnChangeSearch} id="outlined-search" label="Cauta produs" type="search" variant="outlined" />}
+          />
+          <Button style={{width:'10%',background:"rgb(26, 3, 80)",color:'white',display:"inline-block"}} className={classes.searchBtn} onClick={handleSearchButton}>Cauta</Button>
+        </FormControl>
+              
+      </Grid>
     </div>
   );
 }

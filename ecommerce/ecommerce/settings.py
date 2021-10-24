@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'frontend.apps.FrontendConfig',
     'rest_framework',
-    # 'corsheaders',
 ]
 CORS_ORIGIN_WHITELIST = (
 
@@ -54,10 +53,6 @@ CORS_ORIGIN_WHITELIST = (
     'https://tobuycopy-101.herokuapp.com/'
     'http://tobuycopy-101.herokuapp.com/'
 )
-# JWT_AUTH = {
-#     'JWT_RESPONSE_PAYLOAD_HANDLER': 'user.utils.my_jwt_response_handler'
-# }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,7 +63,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 REST_FRAMEWORK = {
     # Only enable JSON renderer by default.
@@ -95,7 +89,6 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 
 # Database

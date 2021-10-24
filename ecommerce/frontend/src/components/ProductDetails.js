@@ -17,7 +17,6 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // maxWidth: 300,
         textAlign: 'center',
         alignItems: 'center',
         backgroundColor:'rgb(233, 233, 233)',
@@ -225,7 +224,6 @@ const ProductDetails = (props) => {
                 quantity:1,
                 product_id:product.id,
                 stock:product.stock,
-                // image:product.image`
             })
         }
         fetch('/api/cart',requestOptions)
@@ -284,7 +282,6 @@ const ProductDetails = (props) => {
             </Grid>
             <Grid className='image-container' item xs = {12}>
                 <div className='image-container'>
-                    {/* <img className="image-product-details" src={product.image?product.image:'/static/images/noImage.png'}></img> */}
                     {renderCarousel()}
                 </div>
                 <Card className={`${classes.root} add-to-chart`}>

@@ -13,32 +13,29 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
 const useStyles = makeStyles({
-    root: {
-        '& label.Mui-focused': {
-          color: 'orange',
+  root: {
+      '& label.Mui-focused': {
+        color: 'orange',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: 'orange',
+      },
+      '& .MuiOutlinedInput-root': {
+        '& fieldset': {
+          borderColor: 'orange',
         },
-        '& .MuiInput-underline:after': {
-          borderBottomColor: 'orange',
+        '&:hover fieldset': {
+          borderColor: 'orange',
         },
-        '& .MuiOutlinedInput-root': {
-          '& fieldset': {
-            borderColor: 'orange',
-          },
-          '&:hover fieldset': {
-            borderColor: 'orange',
-          },
-          '&.Mui-focused fieldset': {
-            borderColor: 'orange',
-          },
+        '&.Mui-focused fieldset': {
+          borderColor: 'orange',
         },
       },
-      mar:{
-        // display:'none'
-      },
-      formControl: {
-        margin: 3,
-        minWidth: 120,
-      },
+    },
+    formControl: {
+      margin: 3,
+      minWidth: 120,
+    },
 
 })
 
@@ -124,7 +121,6 @@ const AddProductPage = (props) => {
       [...image].map((index,key)=>{
         data.append("image",index)
       })
-      // data.append("images[]",[...image].map((index,key)=>{index})); // add your file to form data
       data.append("currency",currency); 
       data.append("price",price)
       data.append("description",description)
@@ -132,7 +128,6 @@ const AddProductPage = (props) => {
       data.append("category",category)
       data.append("stock",stock)
       data.append("regislat",regislat)
-      // data.append("regislat",regislat)
   
       axios({
         method: "POST",
@@ -239,7 +234,6 @@ const AddProductPage = (props) => {
                   <RadioGroup aria-label="gender" name="gender1" value={regislatString} onChange={handleChangeRegislat}>
                       <FormControlLabel value="true" control={<Radio />} label="Regislat" />
                       <FormControlLabel value="false" control={<Radio />} label="Nou" />
-                      {/* <FormControlLabel value="ramburs" control={<Radio />} label="Ramburs" /> */}
                   </RadioGroup>
               </FormControl>
             </Grid>

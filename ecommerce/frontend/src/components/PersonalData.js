@@ -69,9 +69,6 @@ const PersonalData = () => {
         fetch("/api/fill-in-personal-data",requestOptions)
         .then((res)=>{
             if(res.ok){
-                // if (valueRadio=='ramburs'){
-                //     history.push(`/confirm-ramburs/${buyer}`)
-                // }
                 if (valueRadio=='card de credit'){
                     history.push(`/checkout/${buyer}/`)
                 }

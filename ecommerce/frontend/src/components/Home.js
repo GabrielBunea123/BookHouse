@@ -27,10 +27,6 @@ const useStyles = makeStyles((theme) => ({
         width: '25ch',
       },
     },
-    // card:{
-    //   maxWidth:345,
-    //   width:320,
-    // },
     media:{
       height:200,
     },
@@ -61,12 +57,6 @@ const Home = (props) => {
     const history = useHistory();
     const classes = useStyles()
 
-    // if (category) {
-    //   handleSearchButton()
-    //   history.replace('', null);
-    // }
-
-
 
     function getProducts(){
       fetch("/api/home",)
@@ -78,7 +68,7 @@ const Home = (props) => {
     function getReviews(){
       fetch('/api/get-reviews')
       .then((res)=>res.json())
-      .then((data)=>setReviews(data))//CHANGE HERE
+      .then((data)=>setReviews(data))
       
     }
     function getCategories() {
@@ -155,7 +145,6 @@ const Home = (props) => {
                   <Typography component="p" variant="h6">Read more, pay less</Typography>
               </div>
           </div>
-          {/* {renderCategories()} */}
           
           
             {renderTask()}

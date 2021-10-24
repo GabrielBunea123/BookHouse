@@ -4,7 +4,6 @@ import { Grid,Typography,Button } from '@material-ui/core'
 import {Link} from 'react-router-dom'
 const RambursSuccessfull = () => {
     const history = useHistory();
-    //MAKE IT LOOK BETTER
     useEffect(()=>{
         window.scrollTo(0, 0);
     },[])

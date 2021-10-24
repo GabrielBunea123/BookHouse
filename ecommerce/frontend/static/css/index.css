@@ -129,7 +129,7 @@ body {
   padding-right:30px;
 }
 
-@media screen and (max-width: 803px) {
+@media screen and (max-width: 864px) {
   .topnav-links:not(:first-child) {display: none;}
   .icon {
     float: right;
