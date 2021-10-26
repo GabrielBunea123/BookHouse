@@ -13,11 +13,6 @@ const PaymentConfirmationError = () => {
                     <Typography variant="h4" component="h4">
                         A aparut o eroare.&#10060;
                     </Typography>
-                    <FormControl style={{width:'60%'}}>
-                        <Typography variant="h4" component="h4">
-                            Sugestie: daca ati completat unul dintre campurile bloc, scara sau apartament, toate cele 3 campuri trebuie sa fie completate;
-                        </Typography>
-                    </FormControl>
                     <Typography variant="h4" component="h4">
                         Va rugam reincercati!
                     </Typography>
