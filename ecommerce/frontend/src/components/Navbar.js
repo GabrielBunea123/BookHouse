@@ -148,7 +148,7 @@ function Navbar(props) {
   const handleLogout=()=>{
     const requestOptions={
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: {'X-CSRFToken': csrftoken,'Content-Type': 'application/json'},
       body:JSON.stringify({
         logout_user:isAuthenticated
       })
