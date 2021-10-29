@@ -628,13 +628,13 @@ body {
   /* text-transform: uppercase; */
 }
 .banner-text p {
-  color: #fff;
+  color: rgb(196, 145, 145);
   max-width: 25rem;
   margin: 0 auto;
   margin-bottom: 1.25rem;
 }
 .home-categories-container{
-  background-color:#e0e2e7;
+  background-color:#fff;
   border-radius: 50%;
   width: 300px;
   height: 300px;
@@ -680,7 +680,29 @@ body {
   }
 }
 
+/* register */
+.register-container{
+  width:80%;
+}
+.register-username{
+  padding-top:30px;
+}
+.register-email{
+  padding-top:30px;
+}
+.register-password{
+  padding-top:30px;
+}
+.card-auth{
+  width:40%;
+  background-color: #f7f6ff;
+}
 
+@media screen and (max-width: 550px){
+  .card-auth{
+    width:70%;
+  }
+}
 /* footer */
 
 

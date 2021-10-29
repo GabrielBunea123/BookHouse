@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'frontend.apps.FrontendConfig',
+    'users.apps.UsersConfig',
     'rest_framework',
+    'rest_framework.authtoken'
 ]
 CORS_ORIGIN_WHITELIST = (
 
@@ -69,6 +71,10 @@ REST_FRAMEWORK = {
     # Only enable JSON renderer by default.
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
@@ -194,3 +200,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
+
+
+LOGIN_REDIRECT_URL="/"
+LOGOUT_REDIRECT_URL="/"

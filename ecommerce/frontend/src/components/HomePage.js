@@ -16,6 +16,8 @@ import SearchedResults from "./SearchedResults"
 import Footer from "./Footer";
 import Contact from "./Contact";
 import ConfirmRamburs from "./ConfirmRamburs";
+import Register from "./Register"
+import Login from "./Login";
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,6 +25,7 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
+
 
 const HomePage = (props) => {
 
@@ -48,6 +51,8 @@ const HomePage = (props) => {
                 <Route path='/searched-results' component={SearchedResults} />
                 <Route path="/contact-support" component={Contact} />
                 <Route path="/confirm-ramburs/:buyer_id" component={ConfirmRamburs}/>
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={Login} />
                 <Route path="*" component={NotFound}></Route>
 
             </Switch>
@@ -58,3 +63,4 @@ const HomePage = (props) => {
 }
 
 export default HomePage
+

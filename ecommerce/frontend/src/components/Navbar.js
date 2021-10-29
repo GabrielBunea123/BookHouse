@@ -1,25 +1,11 @@
 import React, { useState,useEffect } from 'react';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import { IconContext } from 'react-icons';
-import AddProductPage from './AddProductPage';
 import { useHistory } from "react-router";
-import Home from './Home';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {TextField,Grid,Button,Typography,CardActions,FormControl} from '@material-ui/core'
+import {TextField,Grid,Button,Typography,Card,CardHeader,CardContent,CardActions,FormControl,FormControlLabel,Avatar,IconButton} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import {Card,CardContent} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
-
+import { red } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -39,17 +25,35 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar(props) {
 
+  const classes = useStyles()
+  const history = useHistory();
+
   const [categories,setCategories] = useState([])
   const [buyer,setBuyer] = useState('')
   const [searched,setSearched] = useState('')
   const [products,handleProducts] = useState([])
-  const classes = useStyles()
-
+  const [isAuthenticated,setIsAuthenticated] = useState(false)
+  const [sidebar, setSidebar] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElUser,setAnchorElUser] = useState(null);
+  const [user,setUser] = useState([])
   const open = Boolean(anchorEl);
-  const [userEl,setUserEl] = useState(null)
+  const openUser = Boolean(anchorElUser)
 
-  // const [displayed_form,setDisplayed_form] = useState("")
+  function getUser(){
+    fetch("/users/get-user",)
+    .then((res)=>res.json())
+    .then((data)=>{
+      if(data.username){
+        setIsAuthenticated(true)
+        setUser(data)
+      }
+      else{
+        setIsAuthenticated(false)
+      }
+    })
+  }
+
   function getProducts(){
     fetch("/api/home",)
       .then((res)=>res.json())
@@ -72,11 +76,46 @@ function Navbar(props) {
       })
     })
   }
-  useEffect(()=>{
-    getProducts();
-    getCategories();
-    getFavouriteItems();
-  },[])
+
+  const handleUserMenu=(event)=>{
+    setAnchorElUser(event.currentTarget)
+    getUser();
+  }
+  const handleUserClose = (event) => {
+    setAnchorElUser(null);
+  };
+
+  const authenticated=()=>{
+    if(isAuthenticated==true){
+      return(
+
+        <div>
+          <Card style={{marginBottom:5}}>
+            <Grid item xs={12} align="center">
+              <CardHeader
+                avatar={
+                  <Avatar sx={{ bgcolor: red[500] }}>
+                    User
+                  </Avatar>
+                }
+                title={`Logged in as: ${user.username}`}
+                subheader={`${user.email}`}
+              />
+            </Grid>
+          </Card>
+          <MenuItem fullWidth onClick={handleLogout}>Logout</MenuItem>
+        </div>
+      )
+    }
+    else{
+      return(
+          <>
+            <a style={{textDecoration:'none',color:"black"}} href="/login"><MenuItem>Sign in</MenuItem></a>
+            <a style={{textDecoration:'none',color:"black"}} href="/register"><MenuItem>Create account</MenuItem></a>
+          </>
+      )
+    }
+  }
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -84,8 +123,6 @@ function Navbar(props) {
 
   const handleClose = (event) => {
     setAnchorEl(null);
-    
-
   };
   const handleClick=(event)=>{
     const category = event.nativeEvent.target.outerText
@@ -108,69 +145,70 @@ function Navbar(props) {
 
   }
 
+  const handleLogout=()=>{
+    const requestOptions={
+      method: 'POST',
+      headers: {'X-CSRFToken': csrftoken,'Content-Type': 'application/json'},
+      body:JSON.stringify({
+        logout_user:isAuthenticated
+      })
+    }
+    fetch("/users/logout",requestOptions)
+    .then((res)=>res.json())
+    .then((data)=>{
+      setIsAuthenticated(false)
+      setAnchorElUser(false)
+    })
+  }
+  useEffect(()=>{
+    getProducts();
+    getCategories();
+    getFavouriteItems();
+    getUser();
+  },[])
 
-
-  const [sidebar, setSidebar] = useState(false);
-
-  const history = useHistory();
   return (
     <div>
       <div className={sidebar==false ? "topnav" : "topnav responsive"} class="topnav" id="myTopnav">
         <a className="topnav-links logo" href="/">BookHouse</a>
         <a className="topnav-links" href={buyer!=''?`/favourite-products/${buyer}`:`/favourite-products/1`}>Produse Favorite <i class="fas fa-star"></i></a>
         <a className="topnav-links categories" onClick={handleMenu}>Categorii <i class="fas fa-book"></i></a>
+        <a className="topnav-links cart" onClick={handleUserMenu}><i class="far fa-user"></i></a>
+        <Menu id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'right',}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} PaperProps={{style: {maxHeight:48 * 4.5,width: '30ch',},}} open={openUser} onClose={handleUserClose}>
+          {authenticated()}
+        </Menu>
         <a className="topnav-links cart" href="/cart">Cos de cumparaturi <i class="fas fa-shopping-cart"></i></a>
-        {/* <div className="topnav-links cart">{props.logged_in ? logged_in_nav : logged_out_nav}</div>; */}
         <a className="topnav-links icon" onClick={()=>{setSidebar(!sidebar)}} href="javascript:void(0);" class="icon">
           <i class="fa fa-bars"></i>
         </a>
-        <Menu
-        id="menu-appbar"
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        PaperProps={{
-          style: {
-            maxHeight:48 * 4.5,
-            width: '20ch',
-          },
-        }}
-        open={open}
-        onClose={handleClose}
-        >
+        <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{vertical: 'top',horizontal: 'right',}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} PaperProps={{style: {maxHeight:48 * 4.5,width: '30ch',},}} open={open} onClose={handleClose}>
         {categories.map((name)=>{
           return(
             <MenuItem onClick={handleClick}>{name.category}</MenuItem>
           )
         })}
-        </Menu>
-      </div>
+      </Menu>
+    </div>
 
     {/* searchbar */}
 
-      <Grid className="searchbar-container" align="center" style={{paddingTop:'7px',paddingBottom:'7px'}} item xs={12}>
-        <FormControl className="searchWidth" style={{display:'inline-block'}}>
-        <Autocomplete
-            className="searchbar"
-            options={products.map((option) => option.name)}
-            onChange={(event, value) => setSearched(value)}
-            freeSolo
-            id="free-solo-2-demo"
-            disableClearable
-            style={{ width: '60%',verticalAlign:'top'}}
-            renderInput={(params) => <TextField InputProps={{ ...params.InputProps, type: 'search' }} {...params} style={{width:'100%',background:'white'}} fullWidth onChange={handleOnChangeSearch} id="outlined-search" label="Cauta produs" type="search" variant="outlined" />}
-          />
-          <Button style={{width:'10%',background:"rgb(26, 3, 80)",color:'white',display:"inline-block"}} className={classes.searchBtn} onClick={handleSearchButton}>Cauta</Button>
-        </FormControl>
-              
-      </Grid>
+    <Grid className="searchbar-container" align="center" style={{paddingTop:'7px',paddingBottom:'7px'}} item xs={12}>
+            <FormControl className="searchWidth" style={{display:'inline-block'}}>
+            <Autocomplete
+                className="searchbar"
+                options={products.map((option) => option.name)}
+                onChange={(event, value) => setSearched(value)}
+                freeSolo
+                id="free-solo-2-demo"
+                disableClearable
+                style={{ width: '60%',verticalAlign:'top'}}
+                renderInput={(params) => <TextField InputProps={{ ...params.InputProps, type: 'search' }} {...params} style={{width:'100%',background:'white'}} fullWidth onChange={handleOnChangeSearch} id="outlined-search" label="Cauta produs" type="search" variant="outlined" />}
+              />
+              {/* <TextField style={{width:'60%',background:'white'}} className="searchbar" fullWidth onChange={handleOnChangeSearch} id="outlined-search" label="Search product" type="search" variant="outlined" /> */}
+              <Button style={{width:'10%',background:"rgb(26, 3, 80)",color:'white',display:"inline-block"}} className={classes.searchBtn} onClick={handleSearchButton}>Cauta</Button>
+            </FormControl>
+            
+          </Grid>
     </div>
   );
 }
