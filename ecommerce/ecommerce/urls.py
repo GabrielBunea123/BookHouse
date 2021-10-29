@@ -20,6 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('api.urls')),
     path('',include('frontend.urls')),
+    path('users/', include('users.urls')),
+    path('users/',include("django.contrib.auth.urls")), 
 ]
 
 handler404 = 'frontend.views.error_404'
