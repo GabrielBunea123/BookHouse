@@ -15,12 +15,12 @@ urlpatterns = [
     path('payment-confirmation',index),
     path('payment-confirmation-error',index),
     path('login',index),
-    path('signup',index),
+    path('register',index),
     path('ramburs-success',index),
     path('ramburs-error',index),
     path('searched-results',index),
     path('contact-support',index),
-    path('confirm-ramburs/<str:buyer_id>',index),
+    path('confirm-ramburs/<str:buyer_id>',index)
 
 ]+ static(settings.MEDIA_URL,
                               document_root=settings.MEDIA_ROOT)
