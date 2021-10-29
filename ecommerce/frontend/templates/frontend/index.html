@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% csrf_token %}
+    <script>
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BookHouse</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/favicon.ico">
+    <title>101 toBuy</title>
     {% load static %}
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
