@@ -6,6 +6,7 @@ const Register = () => {
     const [username,setUsername] = useState("")
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
+    const [incorrectCredentials,setIncorrectCredentials] = useState(false)
     const history = useHistory()
 
     function usernameChange(e){
@@ -28,8 +29,15 @@ const Register = () => {
             })
         }
         fetch("/users/register",requestOptions)
-        .then((res)=>res.json())
-        .then((data)=>history.push('/'))
+        .then((res)=>{
+            if(res.ok){
+                history.push('/')
+            }
+            else{
+                setIncorrectCredentials(true)
+            }
+        })
+        .then((data)=>{})
     }
 
     return (
@@ -52,6 +60,12 @@ const Register = () => {
                             <Grid className="register-password" item xs={12} align="center">
                                 <TextField onChange={passwordChange} type="password" fullWidth variant="outlined" label="Password"/>
                             </Grid>
+                            {incorrectCredentials==true?
+                                <Grid item xs={12} align="center">
+                                    <Typography variant="body2" color="secondary">
+                                        An account with this username already exists.
+                                    </Typography>
+                                </Grid>:null}
                         </FormControl>
                         <Grid item xs={12} align="center" style={{paddingTop:30,paddingBottom:20}}>
                             <Button onClick={submit} type="submit" color="primary" variant="contained">

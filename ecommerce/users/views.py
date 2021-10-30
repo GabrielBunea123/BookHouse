@@ -29,7 +29,7 @@ class Register(APIView):
             user = serializer.save()
             Token.objects.get_or_create(user=user)
             return Response(UserSerializer(user).data,status=status.HTTP_201_CREATED)
-        return Response({"Bad request":"Something went wrong. Try again."},status=HTTP_400_BAD_REQUEST)
+        return Response({"Bad request":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)
 
 #Login
 class Login(APIView):

@@ -51,7 +51,7 @@ function Navbar(props) {
                 break;
             }
         }
-    }
+    }//csrftoken
     return cookieValue;
   }
   var csrftoken = getCookie('csrftoken');
