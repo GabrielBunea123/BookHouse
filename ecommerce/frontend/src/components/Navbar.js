@@ -40,6 +40,22 @@ function Navbar(props) {
   const open = Boolean(anchorEl);
   const openUser = Boolean(anchorElUser)
 
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+  var csrftoken = getCookie('csrftoken');
+
   function getUser(){
     fetch("/users/get-user",)
     .then((res)=>res.json())
@@ -147,8 +163,14 @@ function Navbar(props) {
 
   const handleLogout=()=>{
     const requestOptions={
+      credentials: 'include',
       method: 'POST',
-      headers: {'X-CSRFToken': csrftoken,'Content-Type': 'application/json'},
+      mode: 'same-origin',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+      },
       body:JSON.stringify({
         logout_user:isAuthenticated
       })
