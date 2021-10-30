@@ -15,11 +15,7 @@ import os
 
 import dj_database_url 
 import django_heroku
-# from decouple import config
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -173,8 +169,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-STRIPE_PUBLISHABLE_KEY=env('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY=env('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY=config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY=config('STRIPE_SECRET_KEY')
 
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -194,8 +190,8 @@ django_heroku.settings(locals())
 # prod_db = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(prod_db)
 
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'ecommerce-101'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_SIGNATURE_VERSION = 's3v4'
