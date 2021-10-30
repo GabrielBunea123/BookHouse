@@ -1,4 +1,4 @@
-# .env
-# env/
-# ENV/
-# env.bak/
+.env
+env/
+ENV/
+env.bak/
