@@ -92,7 +92,7 @@ const CheckoutForm =(props)=> {
           </Typography>
           <hr></hr>
           <Typography style={{fontWeight:'bold'}} variant='h5' component="h5">
-            Subtotal: {totalMoney+20} RON
+            Subtotal: {totalMoney+7} RON
           </Typography>
         </Grid>
         <Grid container spacing="1" className='payment-card-container'>
