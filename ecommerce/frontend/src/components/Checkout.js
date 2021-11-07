@@ -88,7 +88,7 @@ const CheckoutForm =(props)=> {
             Pret produse: {totalMoney} RON
           </Typography>
           <Typography style={{fontWeight:'bold'}} variant='h5' component="h5">
-            Pret transport: 7 RON
+            Pret transport: 7 RON (posta)
           </Typography>
           <hr></hr>
           <Typography style={{fontWeight:'bold'}} variant='h5' component="h5">
