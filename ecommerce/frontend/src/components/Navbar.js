@@ -195,10 +195,10 @@ function Navbar(props) {
         <a className="topnav-links logo" href="/">BookHouse</a>
         <a className="topnav-links" href={buyer!=''?`/favourite-products/${buyer}`:`/favourite-products/1`}>Produse Favorite <i class="fas fa-star"></i></a>
         <a className="topnav-links categories" onClick={handleMenu}>Categorii <i class="fas fa-book"></i></a>
-        {/* <a className="topnav-links cart" onClick={handleUserMenu}><i class="far fa-user"></i></a>
+        <a className="topnav-links cart" onClick={handleUserMenu}><i class="far fa-user"></i></a>
         <Menu id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'right',}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} PaperProps={{style: {maxHeight:48 * 4.5,width: '30ch',},}} open={openUser} onClose={handleUserClose}>
           {authenticated()}
-        </Menu> */}
+        </Menu>
         <a className="topnav-links cart" href="/cart">Cos de cumparaturi <i class="fas fa-shopping-cart"></i></a>
         <a className="topnav-links icon" onClick={()=>{setSidebar(!sidebar)}} href="javascript:void(0);" class="icon">
           <i class="fa fa-bars"></i>
