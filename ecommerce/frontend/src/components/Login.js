@@ -24,15 +24,16 @@ const Login = () => {
             })
         }
         fetch("/users/login",requestOptions)
-        .then((res)=>{
-            if(res.ok){
-                history.push("/")
+        .then((res)=>res.json())
+        .then((data)=>{
+            if(data){
+                localStorage.setItem("tokenAuth",data.key)
+                history.push('/')
             }
             else{
                 setIncorrectCredentials(true)
             }
         })
-        .then((data)=>{})
     }
 
     return (

@@ -42,7 +42,7 @@ class Login(APIView):
             user = serializer.validated_data
             token = Token.objects.get_or_create(user=user)
             login(request,user)
-            return Response({"user": UserSerializer(user).data},status=status.HTTP_200_OK)
+            return Response(TokenSerializer(Token.objects.get(user=user)).data,status=status.HTTP_200_OK)
         return Response({"Not found":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)
 
 #Logout
@@ -56,7 +56,7 @@ class Logout(APIView):
             logout(self.request)
 
             return Response({"User logged out":logout_user},status=status.HTTP_200_OK)
-        return Response({"Bad request":"Something went wrong. Try again."},status=HTTP_400_BAD_REQUEST)
+        return Response({"Bad request":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)
 
 #Get user
 class GetUser(generics.RetrieveAPIView):

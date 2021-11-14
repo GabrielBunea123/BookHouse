@@ -28,6 +28,8 @@ function Navbar(props) {
   const classes = useStyles()
   const history = useHistory();
 
+  var authToken = localStorage.getItem('tokenAuth')
+
   const [categories,setCategories] = useState([])
   const [buyer,setBuyer] = useState('')
   const [searched,setSearched] = useState('')
@@ -57,7 +59,14 @@ function Navbar(props) {
   var csrftoken = getCookie('csrftoken');
 
   function getUser(){
-    fetch("/users/get-user",)
+    authToken = localStorage.getItem('tokenAuth')
+    const requestOptions={
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${authToken}`
+      }
+    }
+    fetch("/users/get-user",requestOptions)
     .then((res)=>res.json())
     .then((data)=>{
       if(data.username){
@@ -169,7 +178,7 @@ function Navbar(props) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-CSRFToken': csrftoken
+        'X-CSRFToken': csrftoken,
       },
       body:JSON.stringify({
         logout_user:isAuthenticated
@@ -178,6 +187,7 @@ function Navbar(props) {
     fetch("/users/logout",requestOptions)
     .then((res)=>res.json())
     .then((data)=>{
+      localStorage.setItem("tokenAuth","")
       setIsAuthenticated(false)
       setAnchorElUser(false)
     })
