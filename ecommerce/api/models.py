@@ -56,6 +56,7 @@ class PersonalData(models.Model):
     scara = models.CharField(max_length=200,blank=True,null=True)
     apartment = models.CharField(max_length=200,blank=True,null=True)
     payment_method = models.CharField(max_length=200,blank=True,null=True)
+    delivery_method = models.CharField(max_length=200,blank=True,null=True)
     postal_code = models.CharField(max_length=200,blank=True,null=True)
 
 

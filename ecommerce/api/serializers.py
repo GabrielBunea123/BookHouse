@@ -43,7 +43,7 @@ class BuyNowSerializer(serializers.ModelSerializer):
 class PersonalDataSerializer(serializers.ModelSerializer):
     class Meta:
         model=PersonalData
-        fields=("firstName","lastName","email",'address','county','city','phone','block','scara','apartment','payment_method','postal_code')
+        fields=("firstName","lastName","email",'address','county','city','phone','block','scara','apartment','payment_method','delivery_method','postal_code')
         depth=1
 
 class AddToFavouriteSerializer(serializers.ModelSerializer):

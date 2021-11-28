@@ -33,19 +33,20 @@ const PersonalData = () => {
     const [scara,setScara]=useState("")
     const [apartment,setApartment] = useState("")
     const [valueRadio, setValueRadio] = React.useState('card de credit');
+    const [livrareRadio,setLivrareRadio] = useState("curier")
     const [funcRunning,setFunctionRunning]=useState(false)
     const [postalCode,setPostalCode]=useState('')
     const form = useRef()
+    var error=""
 
     const handleChangePayment = (event) => {
         setValueRadio(event.target.value);
     };
-    var error=""
+    const handleLivrareChange = event=>{
+        setLivrareRadio(event.target.value)
+    }
 
-    useEffect(()=>{
-        getCart();
-        window.scrollTo(0, 0);
-    },[])
+    
     function handleSubmitBtn(e){
         e.preventDefault();
         const requestOptions={
@@ -63,6 +64,7 @@ const PersonalData = () => {
                 scara:scara,
                 apartment:apartment,
                 payment_method:valueRadio,
+                delivery_method:livrareRadio,
                 postal_code:postalCode
             })
         }
@@ -71,6 +73,9 @@ const PersonalData = () => {
             if(res.ok){
                 if (valueRadio=='card de credit'){
                     history.push(`/checkout/${buyer}/`)
+                }
+                else{
+                    history.push(`/confirm-ramburs/${buyer}`)
                 }
             }
             else{
@@ -126,6 +131,10 @@ const PersonalData = () => {
     const handlePostalCodeChange=(event)=>{
         setPostalCode(event.target.value)
     }
+    useEffect(()=>{
+        getCart();
+        window.scrollTo(0, 0);
+    },[])
 
     return (
         <form ref={form} style={{paddingBottom:150}} onSubmit={handleSubmitBtn}>
@@ -136,17 +145,17 @@ const PersonalData = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginTop:20}}>
-                    <FormControl style={{width:"53.5%",float:'left'}}>
+                    <FormControl className="formControls-personalData-labels">
                         <Typography className={classes.root} fullWidth variant='h1' component='h3'>Nume</Typography>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginTop:20}}>
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField helperText={error} error={error} required onChange={handleFirstNameChange} fullWidth id="standard-basic" label="Prenume" />
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center">
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField helperText={error} error={error} required onChange={handleLastNameChange} fullWidth id="standard-basic" label="Nume" />
                         <FormHelperText>
                             <div align="center">
@@ -156,7 +165,7 @@ const PersonalData = () => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginTop:40,marginBottom:20}}>
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField inputLabelProps={{ required: true }} type='email' helperText={error} error={error} required onChange={handleEmailChange} fullWidth id="standard-basic" label="Email" />
                         <FormHelperText>
                             <div align="center">
@@ -166,7 +175,7 @@ const PersonalData = () => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginTop:40,marginBottom:20}}>
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField helperText={error} error={error} required onChange={handlePhoneChange} fullWidth id="standard-basic" label="Număr de telefon" />
                         <FormHelperText>
                             <div align="center">
@@ -176,7 +185,7 @@ const PersonalData = () => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginTop:20}}>
-                    <FormControl style={{width:"53.5%",float:'left'}}>
+                    <FormControl className="formControls-personalData-labels">
                         <Typography className={classes.root} fullWidth variant='h5' component='h5'>Adresa</Typography>
                     </FormControl>
                 </Grid>
@@ -200,17 +209,17 @@ const PersonalData = () => {
                     </FormHelperText>
                 </Grid>
                 <Grid item xs={12} align="center">
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField disabled label="Romania" helperText={error} error={error} fullWidth id="standard-basic" />
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center">
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField helperText={error} error={error} required onChange={handleCountyChange} fullWidth id="standard-basic" label="Judet" />
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginBottom:30}}>
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField helperText={error} error={error} required onChange={handleCityChange} fullWidth id="standard-basic" label="Oras" />
                         <FormHelperText>
                             <div align="center">
@@ -220,26 +229,33 @@ const PersonalData = () => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginBottom:30}}>
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <TextField helperText={error} error={error} required onChange={handlePostalCodeChange} fullWidth id="standard-basic" label="Cod postal" />
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginTop:20}}>
-                    <FormControl style={{width:"53.5%",float:'left'}}>
+                    <FormControl className="formControls-personalData-labels">
                         <Typography className={classes.root} fullWidth variant='h1' component='h3'>Metoda de plata</Typography>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center">
-                    <FormControl style={{width:"50%"}}>
+                    <FormControl className="formControls-personalData">
                         <RadioGroup aria-label="gender" name="gender1" value={valueRadio} onChange={handleChangePayment}>
                             <FormControlLabel value="card de credit" control={<Radio />} label="Card de credit" />
-                            {/* <FormControlLabel value="ramburs" control={<Radio />} label="Ramburs" /> */}
+                            <FormControlLabel value="ramburs" control={<Radio />} label="Ramburs" />
                         </RadioGroup>
-                        <FormHelperText>
-                            <div>
-                                Din pacate, metoda de ramburs nu este inca disponibila
-                            </div>
-                        </FormHelperText><br></br>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} align="center" style={{marginTop:20}}>
+                    <FormControl className="formControls-personalData-labels">
+                        <Typography className={classes.root} fullWidth variant='h1' component='h3'>Metoda livrare</Typography>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <FormControl className="formControls-personalData">
+                        <RadioGroup aria-label="gender" name="gender1" value={livrareRadio} onChange={handleLivrareChange}>
+                            <FormControlLabel value="curier" control={<Radio />} label="Curier (14.99 lei)" />
+                        </RadioGroup>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} align="center" style={{marginBottom:30}}>

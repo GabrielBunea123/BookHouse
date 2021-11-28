@@ -88,11 +88,14 @@ const CheckoutForm =(props)=> {
             Pret produse: {totalMoney} RON
           </Typography>
           <Typography style={{fontWeight:'bold'}} variant='h5' component="h5">
-            Pret transport: 7 RON (posta)
+            Pret transport: 14.99 RON (curier)
+          </Typography>
+          <Typography style={{fontWeight:'bold'}} variant='h5' component="h5">
+            Taxa procesare: 1.99 RON
           </Typography>
           <hr></hr>
           <Typography style={{fontWeight:'bold'}} variant='h5' component="h5">
-            Subtotal: {totalMoney+7} RON
+            Subtotal: {totalMoney+15+1.99} RON
           </Typography>
         </Grid>
         <Grid container spacing="1" className='payment-card-container'>

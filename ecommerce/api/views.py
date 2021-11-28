@@ -55,6 +55,7 @@ class ProductDetails(APIView):
     lookup_url_kwarg = 'id'
     
     def get(self,request,format=None):
+        print(self.request.user)
         product_id = request.GET.get(self.lookup_url_kwarg)#GET CODE FROM URL
         if product_id !=None:
             product = Product.objects.filter(id = product_id)
@@ -291,6 +292,7 @@ class PaymentHandleView(APIView):
             
             cart = Cart.objects.filter(buyer = buyer)
             personalData = PersonalData.objects.get(buyer_id=buyer)
+            delivery_price = 1499
             for i in cart:
                 price+=i.price
                 product = Product.objects.get(id = i.product_id)
@@ -299,14 +301,14 @@ class PaymentHandleView(APIView):
             try:
                 if cart!=None:
                     paymentIntent = stripe.PaymentIntent.create(
-                        amount=price*100+700,
+                        amount=price*100+delivery_price+1.99,
                         currency="RON",
                         payment_method=payment_id,
                         confirm=True
                     )
                     table=''
                     for item in cart:
-                        str2=f'Id: {item.product_id}\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
+                        str2=f'Pret: {item.price}RON \nNume: {item.name}\nCantitate: {item.quantity}\n\n'
                         table=table+str2
                     #id nume cantitate 
                     body=f"""{personalData.firstName} {personalData.lastName}, tranzacția ta a fost acceptata.
@@ -328,8 +330,10 @@ Apartament: {personalData.apartment}.
 
 
 Număr contact: {personalData.phone}.
-Tip plata: {personalData.payment_method}.
+Metoda de plata: {personalData.payment_method}.
+Metoda de livrare: {personalData.delivery_method}.
 
+Număr contact BookHouse: 0752231303.
 Mulțumim pentru că ai ales serviciile noastre."""
                         
                     send_mail(
@@ -363,6 +367,7 @@ class PersonalDataView(APIView):
             apartment = serializer.data.get('apartment')
             payment_method= serializer.data.get('payment_method')
             postal_code= serializer.data.get('postal_code')
+            delivery_method= serializer.data.get('delivery_method')
 
 
             personalDataAll = PersonalData.objects.all()
@@ -372,7 +377,7 @@ class PersonalDataView(APIView):
                 if buyer_id==i.buyer_id:
                     i.delete()      
             personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
-            address=address,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method)
+            address=address,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method,delivery_method=delivery_method)
 
             personalData.save()
             return Response({"ok":"ok"}, status=status.HTTP_200_OK)
@@ -397,40 +402,42 @@ class ConfirmRamburs(APIView):
 
                 table=''
                 for item in cart:
-                    str2=f'Id: {item.product_id}\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
-                    table=table+str2
-                # pass
-                body = f'''{personalData.firstName} {personalData.lastName}, comanda ta a fost plasata cu succces.
+                        str2=f'Pret: {item.price} RON\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
+                        table=table+str2
+                    #id nume cantitate 
+                body=f"""{personalData.firstName} {personalData.lastName}, tranzacția ta a fost acceptata.
 
-Produsul/e cu:
+Produsul/Produsele cu:
 
 {table}
 
 va/vor fi livrat/e în Romania la adresa:
-Județ: {personalData.county}
+Județ: {personalData.county} 
 Oras: {personalData.city} 
-Cod postal:{personalData.postal_code}
+Cod postal: {personalData.postal_code}
 Adresa: {personalData.address}
-Bloc: {personalData.block} 
-Scara: {personalData.scara}
+Bloc: {personalData.block}
+Scara: {personalData.scara} 
 Apartament: {personalData.apartment}.
 
 
 
 
 Număr contact: {personalData.phone}.
-Tip plata: {personalData.payment_method}.
+Metoda de plata: {personalData.payment_method}.
+Metoda de livrare: {personalData.delivery_method}.
 
-Mulțumim pentru că ai ales serviciile noastre.
-'''
+
+Număr contact BookHouse: 0752231303.
+Mulțumim pentru că ai ales serviciile noastre."""
+                        
                 send_mail(
-                'Confiramre Livrare',
-                    body,
+                'Confirmare plata',
+                body,
                 settings.EMAIL_HOST_USER,
-                [f'{personalData.email}','gabriel.bunea1@yahoo.com'],
+                [f'{personalData.email}','bookpark8@gmail.com'],
                 fail_silently=False,
                 )
-
                 cart.delete()
             return Response({"ok":"ok"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

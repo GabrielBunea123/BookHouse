@@ -129,8 +129,20 @@ body {
   padding-right:30px;
 }
 
-@media screen and (max-width: 864px) {
+@media screen and (max-width: 945px) {
   .topnav-links:not(:first-child) {display: none;}
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+  }
   .icon {
     float: right;
     display: block;
@@ -704,6 +716,23 @@ body {
   }
 }
 /* footer */
+.formControls-personalData-labels{
+  width:53.5%;
+  float:left;
+}
+.formControls-personalData{
+  width:50%;
+}
+@media screen and (max-width: 1000px){
+  .formControls-personalData{
+    width:70%;
+  }
+}
+@media screen and (max-width: 800px){
+  .formControls-personalData{
+    width:80%;
+  }
+}
 
 
 
