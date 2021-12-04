@@ -307,11 +307,13 @@ const ProductDetails = (props) => {
                 </FormControl>
 
                 <Grid item xs={12} align="center" >
-                    <div className={`${showDescription==false? classes.showHide :null} description-details`}>
-                        <Typography variant="h6" component="h5">
-                            {product.description}
-                        </Typography>
-                    </div>
+                    <FormControl style={{maxWidth:1500}}>
+                        <div className={`${showDescription==false? classes.showHide :null} description-details`}>
+                            <Typography variant="subtitle1">
+                                {product.description}
+                            </Typography>
+                        </div>
+                    </FormControl>
                 </Grid>
                 <FormControl className="product-details-button-container">
                     <Button onClick={showReviewsButton} style={{marginTop:20,height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} fullWidth>Reviews ({reviews.length})</Button> 

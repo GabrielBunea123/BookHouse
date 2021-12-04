@@ -322,10 +322,10 @@ body {
 .description-details {
   font-family: "Times New Roman", Times, serif;
   color:black;
-  width:50%;
+  width:100%;
   margin-top:12px;
   margin-bottom:12px;
-  text-align: justify;
+  text-align: center;
 }
 
 
