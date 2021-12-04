@@ -249,25 +249,6 @@ const ProductDetails = (props) => {
             setCurrentImage(currentImage-1)
         }
     }
-    function renderCarousel(){
-        
-        return(
-        <div className="slideshow-container">
-                
-                {productImage.map((index,key)=>{
-                    return(
-                    <div className={currentImage==key?"fade": "mySlides fade"}>
-                        <img className="img-carousel" src={`${index.image}`} style={{width:'100%',maxWidth:500}}></img>
-                    </div>
-                    )
-                })}
-
-                <a className="prev" onClick={prev}>&#10094;</a>
-                <a className="next" onClick={next}>&#10095;</a>
-
-            </div>
-        )
-    }
     return (
         <Grid style={{paddingBottom:150}} className="details-container" container spacing={1} align="center">
             {/* {renderCarousel()} */}
@@ -280,35 +261,38 @@ const ProductDetails = (props) => {
             <Grid className={classes.name} item xs = {12}>
                 <Typography variant="h4" component="h5">{product.name}</Typography>
             </Grid>
-            <Grid className='image-container' item xs = {12}>
-                <div className='image-container'>
-                    {renderCarousel()}
-                </div>
-                <Card className={`${classes.root} add-to-chart`}>
-                    <CardContent>
-                        <Typography variant="h5" component="h5">
-                        Price: {product.price} Lei
-                        </Typography>
-                    </CardContent>
-                    <Grid item xs={12} align="center">
-                        {product.stock>0?<Link className="link" to={`/fill-in-personal-data`}><Button onClick={addToCart} className="continue-btn" variant="contained" color="secondary">Cumpara acum</Button></Link>:<Button disabled variant="contained" size="small" color="primary">Nu e pe stoc</Button>}
-                    </Grid><br></br>
-                    <Grid item xs={12} align="center">
+            <Grid item xs = {12} align="center">
+                <FormControl style={{display:"inline-block"}}>
+                    <div className='image-container'>
+                        <img src={`${product.image}`} style={{width:'100%',maxWidth:400}}></img>
+                    </div>
+                    <Card className={`${classes.root} add-to-chart`}>
+                        <CardContent>
+                            <Typography variant="h5" component="h5">
+                            Price: {product.price} Lei
+                            </Typography>
+                        </CardContent>
+                        <Grid item xs={12} align="center">
+                            {product.stock>0?<Link className="link" to={`/fill-in-personal-data`}><Button onClick={addToCart} className="continue-btn" variant="contained" color="secondary">Cumpara acum</Button></Link>:<Button disabled variant="contained" size="small" color="primary">Nu e pe stoc</Button>}
+                        </Grid><br></br>
+                        <Grid item xs={12} align="center">
+                            
+                            {product.stock>0? <Button onClick={addToCart} variant="contained" size="small" color="primary">Adauga in cos</Button>:<Button disabled variant="contained" size="small" color="primary">Nu e pe stoc</Button>}
+                        </Grid><br></br>
+                        <Grid item xs={12} align="center">
+                        {favouriteProduct!=true?
                         
-                        {product.stock>0? <Button onClick={addToCart} variant="contained" size="small" color="primary">Adauga in cos</Button>:<Button disabled variant="contained" size="small" color="primary">Nu e pe stoc</Button>}
-                    </Grid><br></br>
-                    <Grid item xs={12} align="center">
-                    {favouriteProduct!=true?
+                            <Button style={{backgroundColor:'rgb(120, 240, 96)',color:'white'}} onClick={addToFavourite} variant="contained" size="small">Adauga la favorite</Button>
+                        :null
+                        }
+                        </Grid>
+                        <br></br>
+                        <Typography className={classes.pos} color="textSecondary">
+                            Daca adaugi in cos poti continua cumparaturile
+                        </Typography>
+                    </Card>
                     
-                        <Button style={{backgroundColor:'rgb(120, 240, 96)',color:'white'}} onClick={addToFavourite} variant="contained" size="small">Adauga la favorite</Button>
-                    :null
-                    }
-                    </Grid>
-                    <br></br>
-                    <Typography className={classes.pos} color="textSecondary">
-                        Daca adaugi in cos poti continua cumparaturile
-                    </Typography>
-                </Card>
+                </FormControl>
                 <Typography style={{marginTop:5}} variant="h6" component="h6">
                     Plata se poate efectua cu cardul <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-amex"></i> <i class="fab fa-cc-discover"></i>
                 </Typography>
@@ -318,7 +302,7 @@ const ProductDetails = (props) => {
                 </Typography>
             </Grid>
             <Grid style={{paddingTop:80}} className='reviews-description-container' item xs={12} align="center">
-                <FormControl style={{width:'98%'}}>
+                <FormControl className="product-details-button-container">
                     <Button style={{height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} onClick={handleDescriptionButton} fullWidth>Descriere</Button>
                 </FormControl>
 
@@ -329,51 +313,55 @@ const ProductDetails = (props) => {
                         </Typography>
                     </div>
                 </Grid>
-                <FormControl style={{width:'98%'}}>
+                <FormControl className="product-details-button-container">
                     <Button onClick={showReviewsButton} style={{marginTop:20,height:70,fontSize:18,backgroundColor:"rgb(255, 153, 58)",borderRadius:50,color:'white'}} fullWidth>Reviews ({reviews.length})</Button> 
                 </FormControl>
                 {reviews.length>0 ?reviews.map((index)=>{
                     return(
-                    <Grid style={{marginTop:12}} item className={`${showReviews==false? classes.showHide :null} review-container`} align='center'>
-                        <div className="review-username">User</div>
-                        <Box fullWidth component="fieldset" mb={3} borderColor="transparent">
-                            <Rating name="read-only" value={index.rating} readOnly />
-                        </Box>
-                        <div className='review-comment'>
-                            {index.comment}
-                        </div>
+                    <Grid style={{marginTop:12}} item align='center'>
+                        <FormControl className={`${showReviews==false? classes.showHide :null} review-container`}>
+                            <div className="review-username">Reader</div>
+                            <Box fullWidth component="fieldset" mb={3} borderColor="transparent">
+                                <Rating name="read-only" value={index.rating} readOnly />
+                            </Box>
+                            <div className='review-comment'>
+                                {index.comment}
+                            </div>
+                        </FormControl>
                     </Grid>
                     )
                 }):null}
                 <Grid style={{paddingTop:80}} item xs={12} align="center">
-                    <Box style={{display:'inline-block'}} component="fieldset" mb={3} borderColor="transparent">
-                        <Typography variant="h6" component="h5">Evalueaza produsul  </Typography>
-                        <Rating
-                        name="simple-controlled"
-                        value={value}
-                        onChange={(event, newValue) => {
-                            setValue(newValue);
-                        }}
-                        />
-                    </Box>
-                    <FormControl style={{width:'70%'}}>
+                    <FormControl className="review-input">
+                        <Box style={{display:'inline-block'}} component="fieldset" mb={3} borderColor="transparent">
+                            <Typography variant="h6" component="h5">Evalueaza produsul  </Typography>
+                            <Rating
+                            name="simple-controlled"
+                            value={value}
+                            onChange={(event, newValue) => {
+                                setValue(newValue);
+                            }}
+                            />
+                        </Box>
                         <TextField value={reviewInput} onChange={reviewInputChange} fullWidth id="outlined-search" label="Adauga o parere" type="search" variant="outlined" inputLabelProps={{ required: true }} multiline rows={3}></TextField>
                     </FormControl>
                     
-                    </Grid>
+                </Grid>
                     <Grid item xs={12} align="center" style={{marginTop:12}}>
                         {reviewInput.length!=0 ?<Button onClick={handleReviewSubmit} variant='contained' color='secondary'>Submit</Button>:null}
                     </Grid>
                     <Grid item xs = {12} align="center">
-                        <Collapse in={errorMsg !="" || successMsg!=""}>
-                            {successMsg !="" ?(<Alert severity="success">{successMsg}</Alert>):(<Alert severity="error">{errorMsg}</Alert>)}
-                        </Collapse>
+                        <FormControl style={{width:'60%'}}>
+                            <Collapse in={errorMsg !="" || successMsg!=""}>
+                                {successMsg !="" ?(<Alert severity="success">{successMsg}</Alert>):(<Alert severity="error">{errorMsg}</Alert>)}
+                            </Collapse>
+                        </FormControl>
 
                     </Grid>
-            </Grid>
-                <Typography style={{padding:20}} variant="h4" component="h4">
+                    <Typography style={{padding:20}} variant="h4" component="h4">
                     Alte produse de care ai putea fi interesat
                 </Typography>
+            </Grid>
                 <Grid item xs = {12} align="center">
                     {renderSameCategoryProducts()}
                 </Grid>

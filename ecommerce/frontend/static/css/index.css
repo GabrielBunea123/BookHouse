@@ -309,15 +309,20 @@ body {
 .add-to-chart{
   display:inline-block;
   margin-top:100px;
-  margin-left: 10px;
+  margin-left: 100px;
   margin-right: 20px;
+  margin-bottom: 30px;
   width:400px;
 
+}
+.image-container{
+  display:inline-block;
+  margin-right: 60px;
 }
 .description-details {
   font-family: "Times New Roman", Times, serif;
   color:black;
-  width:70%;
+  width:50%;
   margin-top:12px;
   margin-bottom:12px;
   text-align: justify;
@@ -393,17 +398,16 @@ body {
 @media screen and (max-width: 1020px) {
   .image-container{
     text-align: center;
-    /* margin-right: 40%; */
-    margin-left: 12px;
-    width:40%;
+    margin-left: 0px;
+    width:100%;
     margin-top:12px;
     margin-bottom: 12px;
+    margin-right: 3px;
 
   }
   .add-to-chart{
-    display:inline-block;
+    margin:0;
     width:auto;
-
   }
   .img-carousel{
     width:90%;
@@ -427,8 +431,7 @@ body {
 @media screen and (max-width: 800px) {
   .image-container{
     text-align: center;
-    /* margin-right: 40%; */
-    margin-left: 0%;
+    margin-left: 0px;
     width:100%;
     margin-top:12px;
     margin-bottom: 12px;
@@ -437,13 +440,6 @@ body {
   .add-to-chart{
     margin:0;
     width:auto;
-
-
-  }
-  .img-carousel{
-    width:90%;
-    margin:0;
-    height:70%;
   }
   
   .slideshow-container{
@@ -458,10 +454,13 @@ body {
   }
 }
 @media screen and (max-width: 560px) {
-  .img-carousel{
-    width:100%;
-    margin:0;
-    height:80%;
+  .image-container{
+    display:inline-block;
+    margin-right: 0px;
+  }
+  .add-to-chart{
+    margin:0px;
+
   }
 }
 
@@ -573,11 +572,31 @@ body {
   width: 40px;
   height: 40px;
 }
+.product-details-button-container{
+  width:60%;
+  max-width:1500px;
+}
+.review-input{
+  width:60%;
+}
 .review-container{
   text-align: center;
   background-color: rgb(222, 231, 231);
   border: 1px solid rgb(212, 228, 230);
   border-radius: 30px;
+  width:60%;
+  max-width: 1500px;
+}
+@media screen and (max-width: 650px) {
+  .product-details-button-container{
+    width:80%;
+  }
+  .review-input{
+    width:80%;
+  }
+  .review-container{
+    width:80%;
+  }
 }
 .review-username{
   color: rgb(156, 156, 156);

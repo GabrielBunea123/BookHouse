@@ -643,7 +643,7 @@ body {
   background-size: 100%;
   background: 
     linear-gradient(rgba(63, 208, 212, 0.5), rgba(0, 0, 0, 0.7)),
-    url(/static/images/home-img4.png) center/cover no-repeat;
+    url("/static/images/home-img4.503bd811e656.png") center/cover no-repeat;
   /* background-repeat: no-repeat; */
   background-size: 100% 100%;
 }
