@@ -21,7 +21,6 @@ class GenerateToken(APIView):
 #Register
 class Register(APIView):
     serializer_class = RegisterSerializer
-
     def post(self,request,*args,**kwargs):
         serializer = self.serializer_class(data=request.data)
         
@@ -31,10 +30,10 @@ class Register(APIView):
             return Response(UserSerializer(user).data,status=status.HTTP_201_CREATED)
         return Response({"Bad request":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)
 
+
 #Login
 class Login(APIView):
     serializer_class = LoginSerializer
-
     def post(self,request,*args,**kwargs):
         serializer = self.serializer_class(data=request.data)
         
@@ -45,10 +44,10 @@ class Login(APIView):
             return Response(TokenSerializer(Token.objects.get(user=user)).data,status=status.HTTP_200_OK)
         return Response({"Not found":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)
 
+
 #Logout
 class Logout(APIView):
     serializer_class = LogoutSerializer
-
     def post(self,request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -57,6 +56,7 @@ class Logout(APIView):
 
             return Response({"User logged out":logout_user},status=status.HTTP_200_OK)
         return Response({"Bad request":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)
+
 
 #Get user
 class GetUser(generics.RetrieveAPIView):
@@ -68,3 +68,42 @@ class GetUser(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class GetProfile(APIView):
+    serializer_class = ProfileUserSerializer
+    lookup_url_kwarg='user'
+    def get(self, request, format=None):
+        
+        user = User.objects.get(pk=request.GET.get(self.lookup_url_kwarg))
+        profile = Profile.objects.filter(user=user)
+        if profile.exists():
+            data = ProfileSerializer(profile[0]).data
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            newProfile = Profile(user=user, description='', orderedBooks=0)
+            newProfile.save()
+            data = ProfileSerializer(newProfile).data
+            return Response(data, status=status.HTTP_200_OK)
+
+
+class CreateProfile(APIView):
+    serializer_class = ProfileSerializer
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = serializer.data.get('user')
+            image = serializer.data.get('image')
+            description = serializer.data.get('description')
+            orderedBooks = serializer.data.get('orderedBooks')
+
+            existingProfile = Profile.objects.filter(user=user)
+
+            if existingProfile.exists():
+                return Response(ProfileSerializer(existingProfile[0]).data, status=status.HTTP_201_CREATED)
+
+            newProfile = Profile(user=user, image=image, description=description, orderedBooks=orderedBooks)
+            newProfile.save()
+
+            return Response(ProfileSerializer(newProfile).data, status=status.HTTP_201_CREATED)
+        return Response({"Bad request":"Something went wrong. Try again."},status=status.HTTP_400_BAD_REQUEST)

@@ -15,10 +15,6 @@ class ProductDetailsCategorySerializer(serializers.ModelSerializer):
         model=Product
         fields=['category']
         depth = 1
-class ProductImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProductImage
-        fields="__all__"
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model=Cart
@@ -29,11 +25,9 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields='__all__'
         depth=1
-class PaymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Payment
-        fields="__all__"
-        depth=1
+class PaymentSerializer(serializers.Serializer):
+    payment_id = serializers.CharField()
+    user = serializers.CharField()
 
 class BuyNowSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,15 +36,19 @@ class BuyNowSerializer(serializers.ModelSerializer):
 
 class PersonalDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model=PersonalData
-        fields=("firstName","lastName","email",'address','county','city','phone','block','scara','apartment','payment_method','delivery_method','postal_code')
+        model=Orders
+        fields=("firstName","lastName","email",'address','county','city','phone','block','scara','apartment','payment_method','delivery_method','postal_code','buyer_id')
         depth=1
 
 class AddToFavouriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavouriteProducts
-        fields = ('id','name','description','price','currency','image','category','product_id','author',"added_to_favourite",'rating')
+        fields = ('id','name','description','price','currency','image','category','product_id','rating', 'author')
         depth=1
+
+class FavouriteUserSerializer(serializers.Serializer):
+    author = serializers.CharField()
+    product_id=serializers.IntegerField()
 
 class GetFavouriteSerializer(serializers.ModelSerializer):
     class Meta:

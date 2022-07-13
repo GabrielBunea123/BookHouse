@@ -24,4 +24,4 @@ urlpatterns = [
     path('users/',include("django.contrib.auth.urls")), 
 ]
 
-handler404 = 'frontend.views.error_404'
+# handler404 = 'frontend.views.error_404'

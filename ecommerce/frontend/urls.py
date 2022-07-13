@@ -11,16 +11,14 @@ urlpatterns = [
     path('cart',index),
     path('favourite-products/<str:buyer>',index),
     path('checkout/<str:buyer>',index),
+    path('profile',index),
     path('fill-in-personal-data',index),
-    path('payment-confirmation',index),
-    path('payment-confirmation-error',index),
+    path('success',index),
+    path('error',index),
     path('login',index),
     path('register',index),
-    path('ramburs-success',index),
-    path('ramburs-error',index),
-    path('searched-results',index),
+    path('searched-results/<str:query>',index),
     path('contact-support',index),
-    path('confirm-ramburs/<str:buyer_id>',index)
 
 ]+ static(settings.MEDIA_URL,
                               document_root=settings.MEDIA_ROOT)

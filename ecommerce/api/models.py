@@ -15,16 +15,12 @@ class Product(models.Model):
     stock = models.IntegerField(default=0,blank=True,null=True)
     rating = models.IntegerField(default=0,blank=True,null=True)
     regislat = models.BooleanField(default=False,blank=True,null=True)
-    
-class ProductImage(models.Model):
-    image = models.FileField(upload_to='product_images/',default='',blank=True)
-    product_id = models.IntegerField(blank=True,null=True)
 
 class Cart(models.Model):
     name = models.CharField(max_length=200,default='')
     buyer = models.CharField(max_length=100,default='')
     quantity = models.IntegerField(default=1)
-    image = models.FileField(upload_to='images/',default='',blank=True)
+    image = models.CharField(max_length=10000000, null=True, blank = True)
     price = models.IntegerField(default=0)
     currency = models.CharField(max_length=5,default='')
     product_id = models.IntegerField(default=0)
@@ -35,7 +31,7 @@ class FavouriteProducts(models.Model):
     name = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     description = models.CharField(max_length=10000)
-    image = models.FileField(upload_to='images/',default='',blank=True)
+    image = models.CharField(max_length=10000000, null=True, blank = True)
     price = models.IntegerField(default=0)
     currency = models.CharField(max_length=5,default='')
     category = models.CharField(max_length=200)
@@ -43,7 +39,7 @@ class FavouriteProducts(models.Model):
     added_to_favourite = models.BooleanField()
     rating = models.IntegerField(default=0,blank=True,null=True)
 
-class PersonalData(models.Model):
+class Orders(models.Model):
     firstName= models.CharField(max_length=200)
     lastName=models.CharField(max_length=200)
     email = models.CharField(max_length=200)
@@ -58,12 +54,14 @@ class PersonalData(models.Model):
     payment_method = models.CharField(max_length=200,blank=True,null=True)
     delivery_method = models.CharField(max_length=200,blank=True,null=True)
     postal_code = models.CharField(max_length=200,blank=True,null=True)
+    product_name = models.CharField(max_length=200,blank=True,null=True, default='')
+    product_id = models.IntegerField(default=0)
 
 
 class Review(models.Model):
     creator = models.CharField(max_length=200)
     rating = models.IntegerField()
-    comment = models.CharField(max_length=5000)
+    comment = models.CharField(max_length=5000, blank=True, null=True)
     product_id = models.IntegerField(default=0)
 
 class Category(models.Model):

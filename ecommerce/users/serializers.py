@@ -42,3 +42,16 @@ class LoginSerializer(serializers.Serializer):
 class LogoutSerializer(serializers.Serializer):
     logout_user = serializers.BooleanField()
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields="__all__"
+
+
+class ProfileUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Profile
+        fields=['user']
+
+

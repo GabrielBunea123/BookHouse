@@ -2,58 +2,38 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework.response import Response
-from rest_framework import generics,status
+from rest_framework import generics,status, viewsets, parsers
 from .models import *
 import json
 import stripe
 from django.conf import settings
 from django.core.mail import send_mail
 from rest_framework.permissions import  IsAdminUser
+from decouple import config
+import os
+from users.serializers import *
 
-# Create your views here.
 
 class GetProducts(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = GetProductSerializer
 
+
 class GetCategories(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class AddProduct(APIView):
+
+class AddProduct(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-
-    def post(self, request, format=None,*args, **kwargs):
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
-
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            name = serializer.data.get('name')
-            description = serializer.data.get('description')
-            price = serializer.data.get('price')
-            image = request.FILES.getlist("image")
-            product_images = image
-            currency = serializer.data.get('currency')
-            category = serializer.data.get('category')
-            stock = serializer.data.get('stock')
-            regislat = serializer.data.get('regislat')
-            author = self.request.session.session_key
-
-
-            product = Product(name=name, author=author,stock=stock,image=image[0],regislat=regislat,
-                    description=description,price=price,currency=currency,category=category)
-            product.save()
-            ProductImage.objects.create(product_id=product.id,image=product.image)
-            
-            return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    queryset = Product.objects.all()
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+    http_method_names = ['get', 'post', 'patch', 'delete']
 
 
 class ProductDetails(APIView):
     serializer_class = GetProductSerializer
     lookup_url_kwarg = 'id'
-    
     def get(self,request,format=None):
         print(self.request.user)
         product_id = request.GET.get(self.lookup_url_kwarg)#GET CODE FROM URL
@@ -65,6 +45,7 @@ class ProductDetails(APIView):
                 return Response(data, status=status.HTTP_200_OK)
             return Response({'Bad Request': 'No room has this code'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProductDetailsCategory(APIView):#get items with the same category
     serializer_class = GetProductSerializer
@@ -81,36 +62,26 @@ class ProductDetailsCategory(APIView):#get items with the same category
 
 
 class ProductDetailsFavouriteProduct(APIView): #if the product is added to favourite or not
-    serializer_class = AddToFavouriteSerializer
-    lookup_url_kwarg ='id'
-    def get(self,request,*args, **kwargs):
+    serializer_class = FavouriteUserSerializer
+    def post(self,request):
+        serializer= self.serializer_class(data=request.data)
+
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
-        product_id = request.GET.get(self.lookup_url_kwarg)
-        buyer = self.request.session.session_key
-        fav_product = FavouriteProducts.objects.filter(author=buyer,product_id=product_id)
-        if fav_product.exists():
-             data = AddToFavouriteSerializer(fav_product[0]).data
-             return Response(data, status=status.HTTP_200_OK)
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-class ProductDetailsImage(APIView):
-    serializer_class = ProductImageSerializer
-    lookup_url_kwarg = 'id'
-    def get(self,request):
-        product_id = request.GET.get(self.lookup_url_kwarg)
-        if product_id!=None:
-            product_image = ProductImage.objects.filter(product_id = product_id)
-            if product_image.exists():
-                data = ProductImageSerializer(product_image,many = True).data
+        if serializer.is_valid():
+            product_id = serializer.data.get("product_id")
+            buyer = self.request.session.session_key if serializer.data.get("author")=="Anonymous" else serializer.data.get("author")
+            fav_product = FavouriteProducts.objects.filter(author=buyer,product_id=product_id)
+            if fav_product.exists():
+                data = AddToFavouriteSerializer(fav_product[0]).data
                 return Response(data, status=status.HTTP_200_OK)
-            return Response({"Not found":'The images were not found'},status =status.HTTP_404_NOT_FOUND)
+            return Response({"404 error":"Not found"}, status=status.HTTP_404_NOT_FOUND)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class AddToCart(APIView):
     serializer_class = CartSerializer
-
     def post(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
@@ -121,20 +92,21 @@ class AddToCart(APIView):
             price = serializer.data.get('price')
             currency = serializer.data.get('currency')
             rating = serializer.data.get('rating')
-            buyer = self.request.session.session_key
+            buyer = self.request.session.session_key if serializer.data.get('buyer')=="Anonymous" else serializer.data.get('buyer')
             quantity = serializer.data.get('quantity')
             product_id = serializer.data.get('product_id')
             stock = serializer.data.get('stock')
+            image = serializer.data.get('image')
             product = Cart(name=name, buyer=buyer,stock = stock,rating=rating,
-                        quantity=quantity,price=price,currency=currency,image='',product_id=product_id)
+                        quantity=quantity,price=price,currency=currency,image=image,product_id=product_id)
             product.save()
             return Response(CartSerializer(product).data, status=status.HTTP_201_CREATED)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
+
 class AddToFavouriteView(APIView):
     serializer_class = AddToFavouriteSerializer
-
     def post(self, request, format=None,*args, **kwargs):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
@@ -145,33 +117,36 @@ class AddToFavouriteView(APIView):
             name = serializer.data.get('name')
             description = serializer.data.get('description')
             price = serializer.data.get('price')
-            image = Product.objects.get(id = product_id).image
+            image = serializer.data.get('image')
             currency = serializer.data.get('currency')
             stock = serializer.data.get('stock')
             category = serializer.data.get('category')
             rating=serializer.data.get('rating')
-            author = self.request.session.session_key
-            added_to_favourite = serializer.data.get('added_to_favourite')
-            product = FavouriteProducts(name=name, author=author,rating=rating,
-                        description=description,price=price,currency=currency,image=image,category = category,product_id=product_id,added_to_favourite=added_to_favourite)
-            product.save()
-            return Response(AddToFavouriteSerializer(product).data, status=status.HTTP_201_CREATED)
+            author = self.request.session.session_key if serializer.data.get('author')=="Anonymous" else serializer.data.get('author')
+
+            existingFav = FavouriteProducts.objects.filter(product_id=product_id, author=author)
+            if existingFav.exists():
+                existingFav.delete()
+                return Response({"Favourite product":"Deleted"}, status=status.HTTP_200_OK)
+            else:
+                product = FavouriteProducts(name=name, author=author,rating=rating,
+                            description=description,price=price,currency=currency,image=image,category = category,product_id=product_id,added_to_favourite=True)
+                product.save()
+                return Response(AddToFavouriteSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetFavouriteProducts(APIView):
     serializer_class = GetFavouriteSerializer
-    lookup_url_kwarg='buyer'
+    lookup_url_kwarg='author'
     def get(self,request):
-        buyer = self.request.session.session_key
-        print(buyer)
-        if buyer!=None:
-            favourite_products = FavouriteProducts.objects.filter(author=buyer)
-            if favourite_products.exists():
-                data = GetFavouriteSerializer(favourite_products,many = True).data
-                return Response(data, status=status.HTTP_200_OK)
-            return Response({'Not found': 'No products found'}, status=status.HTTP_404_NOT_FOUND)
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+        buyer = self.request.session.session_key if request.GET.get(self.lookup_url_kwarg)=='Anonymous' else request.GET.get(self.lookup_url_kwarg)
+        favourite_products = FavouriteProducts.objects.filter(author=buyer)
+        if favourite_products.exists():
+            data = GetFavouriteSerializer(favourite_products,many = True).data
+            return Response(data, status=status.HTTP_200_OK)
+        return Response({'Not found': 'No products found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class DeleteFavourite(APIView):
     serializer_class = DeleteFavouriteSerializer
@@ -182,7 +157,6 @@ class DeleteFavourite(APIView):
         if serializer.is_valid():
             author = serializer.data.get("author")
             product_id = serializer.data.get("product_id")
-            print(product_id)
 
             fav_product = FavouriteProducts.objects.filter(product_id=product_id,author=author)
             fav_product.delete()
@@ -190,23 +164,6 @@ class DeleteFavourite(APIView):
             return Response({'Object':"Deleted"},status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
-class BuyNowView(APIView):
-    serializer_class =CartSerializer 
-    def post(self,request,format=None):
-        if not self.request.session.exists(self.request.session.session_key):
-            self.request.session.create()
-
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            name = serializer.data.get('name')
-            price = serializer.data.get('price')
-            buyer = self.request.session.session_key
-            currency = serializer.data.get('currency')
-
-            product = Cart(name=name,price=price,buyer=buyer,currency=currency)
-            product.save()
-            return Response(BuyNowSerializer(product).data, status=status.HTTP_201_CREATED)
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
 class CartQuantity(APIView):
     serializer_class = CartSerializer
@@ -230,18 +187,18 @@ class CartQuantity(APIView):
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
         
 
-
 class GetCart(APIView):
     serializer_class = CartSerializer
-
+    lookup_url_kwarg ='user'
     def get(self,request):
-        buyer = self.request.session.session_key
+        buyer = self.request.session.session_key if request.GET.get(self.lookup_url_kwarg)=="Anonymous" else request.GET.get(self.lookup_url_kwarg)
         queryset = Cart.objects.filter(buyer=buyer)
         
         if queryset.exists():
             data = CartSerializer(queryset,many = True).data
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class DeleteFromCart(APIView):
     serializer_class = CartSerializer
@@ -253,6 +210,7 @@ class DeleteFromCart(APIView):
             product.delete()
             return Response({"Deleted":"The item was deleted"}, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class SearchedResults(APIView):
     serializer_class = SearchedSerializer
@@ -276,78 +234,52 @@ class SearchedResults(APIView):
                     data = ProductSerializer(queryset,many = True).data
                     return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'No object has this category'}, status=status.HTTP_404_NOT_FOUND)
-        print(serializer.errors)
+
 
 class PaymentHandleView(APIView):
-
     serializer_class=PaymentSerializer
-
     def post(self,request,format=None):
-        stripe.api_key = settings.STRIPE_SECRET_KEY
+        
+        stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
         serializer=self.serializer_class(data=request.data)
-        buyer = self.request.session.session_key
+
         if serializer.is_valid():
+            buyer = self.request.session.session_key if serializer.data.get('user')=='Anonymous' else serializer.data.get('user')
             price=0
             payment_id= serializer.data.get('payment_id')
             
             cart = Cart.objects.filter(buyer = buyer)
-            personalData = PersonalData.objects.get(buyer_id=buyer)
-            delivery_price = 1499
+            orderData = Orders.objects.filter(buyer_id=buyer).reverse()[0]
+
             for i in cart:
                 price+=i.price
+
                 product = Product.objects.get(id = i.product_id)
+                newOrder = Orders(postal_code=orderData.postal_code,firstName=orderData.firstName,lastName=orderData.lastName,email=orderData.email,phone=orderData.phone,
+                            address=orderData.address,county=orderData.county,city=orderData.city,buyer_id=buyer,block=orderData.block,scara=orderData.scara,apartment=orderData.apartment,payment_method=orderData.payment_method,
+                            delivery_method=orderData.delivery_method, product_id=i.product_id, product_name=product.name)
+                newOrder.save()
                 product.stock-=i.quantity
                 product.save()
+
+            orderData.delete()#delete the data with the personal data and without the product details
             try:
                 if cart!=None:
                     paymentIntent = stripe.PaymentIntent.create(
-                        amount=price*100+delivery_price+1.99,
-                        currency="RON",
+                        amount=price*100,
+                        currency="ron",
+                        payment_method_types=["card"],
                         payment_method=payment_id,
                         confirm=True
                     )
-                    table=''
                     for item in cart:
-                        str2=f'Pret: {item.price}RON \nNume: {item.name}\nCantitate: {item.quantity}\n\n'
-                        table=table+str2
-                    #id nume cantitate 
-                    body=f"""{personalData.firstName} {personalData.lastName}, tranzacția ta a fost acceptata.
+                        item.delete()
 
-Produsul/Produsele cu:
-
-{table}
-
-va/vor fi livrat/e în Romania la adresa:
-Județ: {personalData.county} 
-Oras: {personalData.city} 
-Cod postal: {personalData.postal_code}
-Adresa: {personalData.address}
-Bloc: {personalData.block}
-Scara: {personalData.scara} 
-Apartament: {personalData.apartment}.
-
-
-
-
-Număr contact: {personalData.phone}.
-Metoda de plata: {personalData.payment_method}.
-Metoda de livrare: {personalData.delivery_method}.
-
-Număr contact BookHouse: 0752231303.
-Mulțumim pentru că ai ales serviciile noastre."""
-                        
-                    send_mail(
-                    'Confirmare plata',
-                    body,
-                    settings.EMAIL_HOST_USER,
-                    [f'{personalData.email}','bookpark8@gmail.com'],
-                    fail_silently=False,
-                    )
-                    cart.delete()
                     return Response(paymentIntent, status=status.HTTP_200_OK)
+                else:
+                    return Response({"Bad request":"No items to pay"},status=status.HTTP_404_NOT_FOUND)
             except:
                 return Response({"Bas Request":"Error occured"},status=status.HTTP_400_BAD_REQUEST)
-            return Response({"Bad request":"No items to pay"},status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PersonalDataView(APIView):
@@ -368,77 +300,17 @@ class PersonalDataView(APIView):
             payment_method= serializer.data.get('payment_method')
             postal_code= serializer.data.get('postal_code')
             delivery_method= serializer.data.get('delivery_method')
+            buyer_id = self.request.session.session_key if serializer.data.get('buyer_id')=='Anonymous' else serializer.data.get('buyer_id')
 
+            emptyOrders = Orders.objects.filter(buyer_id=buyer_id)
+            for i in emptyOrders:
+                if i.product_name=='' or i.product_id==0:
+                    i.delete()
 
-            personalDataAll = PersonalData.objects.all()
-            buyer_id = self.request.session.session_key
-
-            for i in personalDataAll:
-                if buyer_id==i.buyer_id:
-                    i.delete()      
-            personalData = PersonalData(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
+            personalData = Orders(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
             address=address,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method,delivery_method=delivery_method)
-
             personalData.save()
-            return Response({"ok":"ok"}, status=status.HTTP_200_OK)
-            
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ConfirmRamburs(APIView):
-    serializer_class = PersonalDataSerializer
-    def get(self,request):
-            
-        personalDataAll = PersonalData.objects.all()
-        buyer_id = self.request.session.session_key
-        personalData = PersonalData.objects.get(buyer_id=buyer_id)
-
-        cart = Cart.objects.filter(buyer = buyer_id)
-        if personalData:
-            for i in cart:
-                product = Product.objects.get(id = i.product_id)
-                product.stock-=i.quantity
-                product.save()
-
-
-                table=''
-                for item in cart:
-                        str2=f'Pret: {item.price} RON\nNume: {item.name}\nCantitate: {item.quantity}\n\n'
-                        table=table+str2
-                    #id nume cantitate 
-                body=f"""{personalData.firstName} {personalData.lastName}, tranzacția ta a fost acceptata.
-
-Produsul/Produsele cu:
-
-{table}
-
-va/vor fi livrat/e în Romania la adresa:
-Județ: {personalData.county} 
-Oras: {personalData.city} 
-Cod postal: {personalData.postal_code}
-Adresa: {personalData.address}
-Bloc: {personalData.block}
-Scara: {personalData.scara} 
-Apartament: {personalData.apartment}.
-
-
-
-
-Număr contact: {personalData.phone}.
-Metoda de plata: {personalData.payment_method}.
-Metoda de livrare: {personalData.delivery_method}.
-
-
-Număr contact BookHouse: 0752231303.
-Mulțumim pentru că ai ales serviciile noastre."""
-                        
-                send_mail(
-                'Confirmare plata',
-                body,
-                settings.EMAIL_HOST_USER,
-                [f'{personalData.email}','bookpark8@gmail.com'],
-                fail_silently=False,
-                )
-                cart.delete()
             return Response({"ok":"ok"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -446,7 +318,6 @@ Mulțumim pentru că ai ales serviciile noastre."""
             
 class AddReview(APIView):
     serializer_class = ReviewSerializer
-
     def post(self, request):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
@@ -468,6 +339,8 @@ class AddReview(APIView):
             create_review.save()
             return Response(ReviewSerializer(create_review).data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class GetReviews(APIView):
     serializer_class = ReviewSerializer
     lookup_url_kwarg='product_id'
@@ -482,6 +355,19 @@ class GetReviews(APIView):
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class GetUserReviews(APIView):
+    serializer_class = ReviewSerializer
+    lookup_url_kwarg = 'user'
+    def get(self, request, format=None):
+        user = request.GET.get(self.lookup_url_kwarg)
+        userReviews = Review.objects.filter(creator=self.request.session.session_key) #get by user not by session(future update)
+        if userReviews.exists():
+            data = ReviewSerializer(userReviews, many=True).data
+            return Response(data, status=status.HTTP_200_OK)
+        return Response({'404 error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
 class GetAverageRating(APIView):
     serializer_class = ReviewSerializer
     lookup_url_kwarg='product_id'
@@ -495,6 +381,7 @@ class GetAverageRating(APIView):
             data = ReviewSerializer(reviews,many = True).data
             return Response(data, status=status.HTTP_200_OK)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class Contact(APIView):
     serializer_class= ContactSerializer
