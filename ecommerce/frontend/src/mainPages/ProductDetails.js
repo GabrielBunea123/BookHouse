@@ -1,60 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Typography, Button, TextField, FormControl, Card, CardContent, Alert, Rating, Box, Collapse } from '@mui/material'
-import { makeStyles } from "@mui/styles"
-import { Link } from 'react-router-dom';
+import { Grid, Button, FormControl, Alert, Rating, Box, Collapse } from '@mui/material'
 import MainButton from '../components/MainButton';
 import ProductCard from '../components/ProductCard';
 
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        textAlign: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgb(233, 233, 233)',
-        height: 300,
-        paddingTop: 25,
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-        marginLeft: 12,
-        marginRight: 12,
-    },
-    name: {
-        marginLeft: '30px',
-        color: '#3f51b5'
-    },
-    description: {
-        marginTop: 12,
-        marginBottom: 12,
-    },
-    root1: {
-        flexGrow: 1,
-        margin: 5
-    },
-    root2: {
-        color: 'black',
-        maxWidth: "70%",
-        marginTop: 12,
-        marginBottom: 12,
-
-    },
-    showHide: {
-        display: 'none'
-    },
-    info: {
-        marginTop: 5,
-        marginBottom: 12,
-        textAlign: 'center',
-    },
-    root3: {
-        minWidth: 275,
-    }
-}))
 const ProductDetails = (props) => {
-    const classes = useStyles();
     const [product, handleProduct] = useState({})
     const [productImage, setProductImage] = useState([])
     const [sameCategoryProducts, setSameCategoryProducts] = useState([])
@@ -191,7 +140,6 @@ const ProductDetails = (props) => {
                 product_id: id,
                 rating: product.rating,
                 author: user.id ? user.id : "Anonymous"
-                // added_to_favourite: true
             })
         }
         fetch('/api/add-to-favourite', requestOptions)

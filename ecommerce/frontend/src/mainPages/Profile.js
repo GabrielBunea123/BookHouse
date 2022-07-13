@@ -1,9 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import MainButton from '../components/MainButton';
 import { useHistory } from "react-router";
-import CoffeeMachine from '../components/CoffeeMachine';
 
 const Profile = () => {
 
@@ -48,7 +46,6 @@ const Profile = () => {
                     getProfile(data.id)
                     getFavouriteProducts(data.id)
                     getUserReviews(data.id)
-                    // createProfile(data.id)
                 }
                 else {
                     setIsAuthenticated(false)
@@ -58,13 +55,6 @@ const Profile = () => {
     }
 
     const getProfile = (userAuth) => {
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                user: userAuth,
-            })
-        }
         fetch("/users/get-profile" + "?user=" + userAuth)
             .then(res => res.json())
             .then(data => {
@@ -90,7 +80,7 @@ const Profile = () => {
             .then(res => res.json())
             .then(data => {
                 var num = 0
-                data.map(item=>{
+                data.map(item => {
                     num++;
                 })
                 setReviewsNumber(num)
@@ -98,23 +88,6 @@ const Profile = () => {
             .catch(err => console.error(err))
     }
 
-    // const createProfile = (userAuth) =>{
-    // const requestOptions = {
-    //     method:"POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body:JSON.stringify({
-    //         user:userAuth,
-    //         description:'None', 
-    //         orderedBooks:0
-    //     })
-    // }
-    //     fetch('/users/create-profile', requestOptions)
-    //     .then(res=>res.json())
-    //     .then(data=>{
-    //         console.log(data)
-    //     })
-    //     .catch(err=>console.error(err))
-    // }
 
     const handleLogout = () => {
         const requestOptions = {

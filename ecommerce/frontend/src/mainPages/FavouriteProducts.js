@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Rating, Button, FormControl, Grid, Typography, CardMedia, CardContent, CardActions, CardActionArea, Card } from '@mui/material';
 import { makeStyles } from "@mui/styles"
 import ProductCard from '../components/ProductCard';
 import MainButton from '../components/MainButton';
 import CoffeeMachine from '../components/CoffeeMachine';
 
 
-const useStyles = makeStyles((theme) => ({
-  root1: {
-    flexGrow: 1,
-    margin: 5
-  },
-}))
 const FavouriteProducts = (props) => {
 
   const [products, setProducts] = useState([])
@@ -40,9 +32,9 @@ const FavouriteProducts = (props) => {
     fetch("/users/get-user", requestOptions)
       .then((res) => res.json())
       .then((data) => {
-        if(data.username)
+        if (data.username)
           setUser(data)
-        else setUser({id:'Anonymous'})
+        else setUser({ id: 'Anonymous' })
       })
   }
 

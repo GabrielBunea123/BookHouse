@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid, Button, Typography } from '@mui/material';
-import { makeStyles, withStyles } from "@mui/styles"
-import { Link } from 'react-router-dom'
+import { Button } from '@mui/material';
 import MainButton from '../components/MainButton';
 
 const Cart = () => {

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Typography, Rating } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { makeStyles } from "@mui/styles"
-import { useHistory } from "react-router";
-import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard';
 
 const useStyles = makeStyles((theme) => ({

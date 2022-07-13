@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Grid, Typography, TextField, FormControl, FormControlLabel, Collapse, Alert, InputLabel, MenuItem, Select, Radio, RadioGroup } from '@mui/material'
+import { Grid, Typography, TextField, FormControl, FormControlLabel, Collapse, Alert, InputLabel, MenuItem, Select, Radio, RadioGroup } from '@mui/material'
 import { makeStyles } from '@mui/styles';
 import axios from 'axios';
 import MainButton from '../components/MainButton';
@@ -31,7 +31,7 @@ const AddProductPage = (props) => {
   useEffect(() => {
     getCategories();
   }, [])
-  
+
   const nameChange = (event) => {
     setName(event.target.value)
   }

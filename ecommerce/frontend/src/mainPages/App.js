@@ -1,8 +1,5 @@
-import React,{useEffect} from 'react'
-import { render } from "react-dom";
+import React from 'react'
 import HomePage from './HomePage';
-import Navbar from './Navbar';
-import Footer from "./Footer";
 
 
 function App() {

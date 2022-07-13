@@ -54,7 +54,7 @@ const Login = () => {
                 <MainButton variant="contained" className="mt-5" type="submit">Sign in</MainButton>
                 <div className="pt-5">
                     <small>
-                        <a style={{textDecoration:"none"}} href="/register">Don't have an account? Create one here</a>
+                        <a style={{ textDecoration: "none" }} href="/register">Don't have an account? Create one here</a>
                     </small>
                 </div>
             </div>

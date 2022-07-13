@@ -1,16 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Grid, Typography, FormControl, FormControlLabel, Button, TextField, FormHelperText, Radio, RadioGroup, CircularProgress } from '@mui/material'
-import { makeStyles } from "@mui/styles"
-import { Link } from 'react-router-dom'
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
 import { useHistory } from "react-router";
 import MainButton from '../components/MainButton';
-import Wrapper from './Checkout';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-
-    },
-}));
 
 const PersonalData = () => {
 
@@ -69,7 +61,6 @@ const PersonalData = () => {
             .then((res) => {
                 if (res.ok) {
                     history.push(`/checkout/${user.id ? user.id : buyer}`)
-                    // history.push("/checkout")
                 }
                 else {
                     history.push('/ramburs-error')
@@ -210,7 +201,6 @@ const PersonalData = () => {
                 <RadioGroup aria-label="gender" name="gender1" value={valueRadio} onChange={handleChangePayment}>
                     <FormControlLabel value="credit card" control={<Radio />} label="Credit card" />
                 </RadioGroup>
-                {/* <Wrapper/> */}
             </div>
 
 

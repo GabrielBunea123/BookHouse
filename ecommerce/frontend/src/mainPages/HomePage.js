@@ -41,10 +41,10 @@ const HomePage = (props) => {
                 <Route path="/cart" component={Cart} />
                 <Route path="/favourite-products/:buyer" component={FavouriteProducts} />
                 <Route path="/checkout/:buyer" component={Checkout}></Route>
-                <Route path="/profile" component={Profile}/>
+                <Route path="/profile" component={Profile} />
                 <Route path="/fill-in-personal-data" component={PersonalData} />
-                <Route path="/success" component={Success}/>
-                <Route path="/error" component={Error}/>
+                <Route path="/success" component={Success} />
+                <Route path="/error" component={Error} />
                 <Route path='/searched-results/:query' component={SearchedResults} />
                 <Route path="/contact-support" component={Contact} />
                 <Route path="/register" component={Register} />

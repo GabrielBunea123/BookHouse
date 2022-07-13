@@ -31,10 +31,9 @@ const options = {
   }
 }
 
-
 // Pass the appearance object to the Elements instance
 
-const CheckoutForm = (props) => {
+const CheckoutForm = () => {
   const history = useHistory();
   const stripe = useStripe()
   const elements = useElements()
@@ -51,7 +50,7 @@ const CheckoutForm = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setCart(data);
-        data.map((item, key) => {
+        data.map((item) => {
           price += item.price
           setTotalMoney(price)
         })
@@ -67,7 +66,7 @@ const CheckoutForm = (props) => {
     }
     try {
 
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
+      const { paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: elements.getElement(CardNumberElement)
       });
@@ -80,7 +79,6 @@ const CheckoutForm = (props) => {
       history.push('/success')
     }
     catch (error) {
-      // history.push('/error')
     }
   };
 
