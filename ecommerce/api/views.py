@@ -35,7 +35,6 @@ class ProductDetails(APIView):
     serializer_class = GetProductSerializer
     lookup_url_kwarg = 'id'
     def get(self,request,format=None):
-        print(self.request.user)
         product_id = request.GET.get(self.lookup_url_kwarg)#GET CODE FROM URL
         if product_id !=None:
             product = Product.objects.filter(id = product_id)
