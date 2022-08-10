@@ -1,5 +1,5 @@
 import React,{ useRef,useState,useEffect } from 'react'
-import { useHistory } from "react-router";
+import { useNavigate } from 'react-router';
 import {Grid,Typography,FormControl,TextField,Button} from '@mui/material'
 import emailjs from 'emailjs-com'
 import { FaCreativeCommonsNcJp } from 'react-icons/fa'
@@ -8,7 +8,7 @@ const Contact = () => {
     const form= useRef()
     const [toEmail,setToEmail] = useState('')
     const [message,setMessage] = useState('')
-    const history = useHistory()
+    // const history = useHistory()
 
 
     useEffect(()=>{
@@ -29,7 +29,7 @@ const Contact = () => {
         .then((res)=>res.json())
         .then((data) =>{})
 
-        history.push('/')
+        // history.push('/')
       };
 
       function currentEmail(e){

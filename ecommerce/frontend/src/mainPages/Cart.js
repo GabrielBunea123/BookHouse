@@ -113,7 +113,13 @@ const Cart = () => {
         </table>
       </div>
       <h4 className="pt-1 fw-bold">{finalPrice} RON</h4>
-      <a style={{ textDecoration: 'none' }} href={`fill-in-personal-data`}><MainButton variant="contained" className='mt-4'>Continue</MainButton></a>
+      {products.length > 0 ?
+        <a style={{ textDecoration: 'none' }} href={`fill-in-personal-data`}>
+          <MainButton variant="contained" className='mt-4'>Continue</MainButton>
+        </a>
+        :
+        <MainButton disabled variant="contained" className='mt-4'>Continue</MainButton>
+      }
     </div>
 
   )

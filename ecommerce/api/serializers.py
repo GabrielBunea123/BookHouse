@@ -28,6 +28,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class PaymentSerializer(serializers.Serializer):
     payment_id = serializers.CharField()
     user = serializers.CharField()
+    userInfo = serializers.DictField()
 
 class BuyNowSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,6 +40,12 @@ class PersonalDataSerializer(serializers.ModelSerializer):
         model=Orders
         fields=("firstName","lastName","email",'address','county','city','phone','block','scara','apartment','payment_method','delivery_method','postal_code','buyer_id')
         depth=1
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Orders
+        fields="__all__"
+        depth = 1
 
 class AddToFavouriteSerializer(serializers.ModelSerializer):
     class Meta:

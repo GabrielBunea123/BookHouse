@@ -5,29 +5,34 @@ from django.contrib.auth import authenticate
 from .models import *
 
 
-#User serializer
+# User serializer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields=("id","username","email","last_login")
+        fields = ("id", "username", "email", "last_login")
+
 
 class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
-        fields=['key']
-#Register serializer
+        fields = ['key']
+# Register serializer
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields=("id","username","email","password")
-        extra_kwargs={'password':{'write_only':True}}
+        fields = ("id", "username", "email", "password")
+        extra_kwargs = {'password': {'write_only': True}}
+
     def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], validated_data['email'], validated_data['password'])
+        user = User.objects.create_user(
+            validated_data['username'], validated_data['email'], validated_data['password'])
 
         return user
-    
 
-#Login serializer
+
+# Login serializer
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
@@ -38,7 +43,9 @@ class LoginSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError("Incorrect Credentials")
 
-#Logout serializer
+# Logout serializer
+
+
 class LogoutSerializer(serializers.Serializer):
     logout_user = serializers.BooleanField()
 
@@ -46,12 +53,15 @@ class LogoutSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields="__all__"
+        fields = "__all__"
 
 
 class ProfileUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Profile
-        fields=['user']
+        model = Profile
+        fields = ['user']
 
 
+class ProfilePicSerializer(serializers.Serializer):
+    image = serializers.FileField()
+    user = serializers.IntegerField()

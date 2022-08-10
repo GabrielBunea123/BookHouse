@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material'
-import { useHistory } from "react-router";
+import { useNavigate } from 'react-router';
 import MainButton from '../components/MainButton';
 
 
 const PersonalData = () => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
+
+    // const history = useHistory();
     const [buyer, setBuyer] = useState('')
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -36,34 +38,36 @@ const PersonalData = () => {
 
 
     function handleSubmitBtn(e) {
+        const data = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            address: address,
+            county: county,
+            city: city,
+            phone: phone,
+            block: block,
+            scara: scara,
+            apartment: apartment,
+            payment_method: valueRadio,
+            delivery_method: livrareRadio,
+            postal_code: postalCode,
+            buyer_id: user.id ? user.id : 'Anonymous'
+        }
         e.preventDefault();
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                address: address,
-                county: county,
-                city: city,
-                phone: phone,
-                block: block,
-                scara: scara,
-                apartment: apartment,
-                payment_method: valueRadio,
-                delivery_method: livrareRadio,
-                postal_code: postalCode,
-                buyer_id: user.id ? user.id : 'Anonymous'
-            })
+            body: JSON.stringify(data)
         }
         fetch("/api/fill-in-personal-data", requestOptions)
             .then((res) => {
                 if (res.ok) {
-                    history.push(`/checkout/${user.id ? user.id : buyer}`)
+                    //edit here
+                    navigate(`/checkout/${user.id ? user.id : buyer}`, { state: { userInfo: data} });
                 }
                 else {
-                    history.push('/ramburs-error')
+                    navigate('/ramburs-error')
                 }
             })
             .then((data) => {

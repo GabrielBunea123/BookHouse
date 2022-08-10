@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useHistory } from "react-router";
+import { useNavigate } from 'react-router';
 import MainButton from '../components/MainButton';
 const Register = () => {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [incorrectCredentials, setIncorrectCredentials] = useState(false)
-    const history = useHistory()
+    // const history = useHistory()
 
     function usernameChange(e) {
         setUsername(e.target.value)

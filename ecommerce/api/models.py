@@ -1,6 +1,7 @@
 from django.db import models
 import string
 import random
+from jsonfield import JSONField
 
 # Create your models here.
 
@@ -54,8 +55,8 @@ class Orders(models.Model):
     payment_method = models.CharField(max_length=200,blank=True,null=True)
     delivery_method = models.CharField(max_length=200,blank=True,null=True)
     postal_code = models.CharField(max_length=200,blank=True,null=True)
-    product_name = models.CharField(max_length=200,blank=True,null=True, default='')
-    product_id = models.IntegerField(default=0)
+    products_name = JSONField()
+    products_id = JSONField()
 
 
 class Review(models.Model):

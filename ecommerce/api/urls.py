@@ -30,6 +30,7 @@ urlpatterns = [
     path('check-for-fav',ProductDetailsFavouriteProduct.as_view()),
     path('searched-results',SearchedResults.as_view()),
     path("contact",Contact.as_view()),
+    path('get-user-orders',GetUserOrders.as_view())
 
     
 ]

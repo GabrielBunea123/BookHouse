@@ -9,9 +9,9 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 import { Grid, CircularProgress } from "@mui/material"
-import { useHistory } from "react-router";
 import MainButton from '../components/MainButton'
 import axios from 'axios'
+import { useLocation, useNavigate } from 'react-router';
 
 const stripePromise = loadStripe("pk_test_51JQpMJBL4rqcbP3BPR5jnnDPPlpiAGIjyurgrNELzYAOKlN7j0apcxrz4RC33ZEVyYF8NZDjUeHaCxoeZcBrF9hI00QnV61k9c");
 const options = {
@@ -34,7 +34,9 @@ const options = {
 // Pass the appearance object to the Elements instance
 
 const CheckoutForm = () => {
-  const history = useHistory();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const stripe = useStripe()
   const elements = useElements()
   const [cart, setCart] = useState([])
@@ -62,7 +64,7 @@ const CheckoutForm = () => {
     clicked = true
     //get the cart data
     if (!stripe || !elements) {
-      history.push('/error')
+      navigate('/error')
     }
     try {
 
@@ -72,11 +74,14 @@ const CheckoutForm = () => {
       });
       const payment_id = paymentMethod.id
 
+      console.log(location.state.Info)
+
       const { data: clientSecret } = await axios.post("/api/checkout", {
         payment_id: payment_id,
-        user: user.id ? user.id : "Anonymous"
+        user: user.id ? user.id : "Anonymous",
+        userInfo: location.state.userInfo
       })
-      history.push('/success')
+      navigate('/success')
     }
     catch (error) {
     }

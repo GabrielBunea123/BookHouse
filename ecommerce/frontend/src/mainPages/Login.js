@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Typography, Grid, Button, TextField, FormControlLabel, FormControl, Card, CardActions, CardContent } from '@mui/material'
-import { useHistory } from "react-router";
+import { useNavigate } from 'react-router';
 import MainButton from '../components/MainButton';
 
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [incorrectCredentials, setIncorrectCredentials] = useState(false)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     function usernameChange(e) {
         setUsername(e.target.value)
@@ -36,7 +36,7 @@ const Login = () => {
             })
             .then((data) => {
                 localStorage.setItem("tokenAuth", data.key)
-                history.push('/')
+                navigate('/')
             })
     }
 

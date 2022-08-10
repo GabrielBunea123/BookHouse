@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Button, FormControl, Alert, Rating, Box, Collapse } from '@mui/material'
 import MainButton from '../components/MainButton';
 import ProductCard from '../components/ProductCard';
+import { Link, useParams } from 'react-router-dom';
 
 const ProductDetails = (props) => {
     const [product, handleProduct] = useState({})
     const [productImage, setProductImage] = useState([])
     const [sameCategoryProducts, setSameCategoryProducts] = useState([])
-    const [id, setId] = useState(props.match.params.id)
+    let { id } = useParams()
     const [successMsg, setSuccessMsg] = useState('')
     const [errorMsg, setErrorMsg] = useState('')
     const [showDescription, setShowDescription] = useState(true)
@@ -20,6 +21,7 @@ const ProductDetails = (props) => {
     const [shuffledArray, setShuffledArray] = useState([])
     const [showAllReviews, setShowAllReviews] = useState(false)
     const [user, setUser] = useState({})
+
 
 
     function getProduct() {
@@ -35,6 +37,13 @@ const ProductDetails = (props) => {
         fetch("/api/product-details-category" + "?category=" + e.category)
             .then((res) => res.json())
             .then((data) => {
+                var toDeleteIndex = null
+                data.map((item, index) => {
+                    if (item.id == e.id) {
+                        toDeleteIndex = index
+                    }
+                })
+                data.splice(toDeleteIndex, 1)
                 setSameCategoryProducts(data);
                 setShuffledArray(data.sort(() => 0.5 - Math.random()))
             })
@@ -79,6 +88,7 @@ const ProductDetails = (props) => {
             .then((res) => res.json())
             .then((data) => {
                 setUser(data)
+                console.log(data)
             })
     }
 
@@ -96,7 +106,7 @@ const ProductDetails = (props) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                creator: '1',
+                creator: user.id ? user.id : "Anonymous",
                 rating: starRating,
                 comment: reviewInput,
                 product_id: id

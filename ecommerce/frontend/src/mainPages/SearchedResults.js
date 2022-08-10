@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
-
+import { useParams } from 'react-router-dom'
 
 
 const SearchedResults = (props) => {
 
-    let query = props.match.params.query
+    let { query } = useParams()
 
     const [searched_items, setItems] = useState([])
 

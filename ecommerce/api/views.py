@@ -38,13 +38,12 @@ class ProductDetails(APIView):
         product_id = request.GET.get(self.lookup_url_kwarg)#GET CODE FROM URL
         if product_id !=None:
             product = Product.objects.filter(id = product_id)
-            if len(product)>0:
+            if product.exists():
                 data = GetProductSerializer(product[0]).data #SEND THE INFO ABOUT THE ROOM TO FRONTEND
 
                 return Response(data, status=status.HTTP_200_OK)
-            return Response({'Bad Request': 'No room has this code'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'Not found': '404 error'}, status=status.HTTP_404_NOT_FOUND)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
-
 
 class ProductDetailsCategory(APIView):#get items with the same category
     serializer_class = GetProductSerializer
@@ -246,22 +245,30 @@ class PaymentHandleView(APIView):
             buyer = self.request.session.session_key if serializer.data.get('user')=='Anonymous' else serializer.data.get('user')
             price=0
             payment_id= serializer.data.get('payment_id')
+            userInfo =serializer.data.get("userInfo")
             
             cart = Cart.objects.filter(buyer = buyer)
-            orderData = Orders.objects.filter(buyer_id=buyer).reverse()[0]
+
+            #create dictionaries for the product names and ids of the products in cart
+            #store them as a json field
+            productsName = {'names':[]}
+            productsId = {'productIds':[]}
 
             for i in cart:
-                price+=i.price
 
+                price+=i.price
                 product = Product.objects.get(id = i.product_id)
-                newOrder = Orders(postal_code=orderData.postal_code,firstName=orderData.firstName,lastName=orderData.lastName,email=orderData.email,phone=orderData.phone,
-                            address=orderData.address,county=orderData.county,city=orderData.city,buyer_id=buyer,block=orderData.block,scara=orderData.scara,apartment=orderData.apartment,payment_method=orderData.payment_method,
-                            delivery_method=orderData.delivery_method, product_id=i.product_id, product_name=product.name)
-                newOrder.save()
+                
+                productsName['names'].append(product.name)
+                productsId['productIds'].append(i.product_id)
+
                 product.stock-=i.quantity
                 product.save()
 
-            orderData.delete()#delete the data with the personal data and without the product details
+            newOrder = Orders(postal_code=userInfo['postal_code'],firstName=userInfo['firstName'],lastName=userInfo['lastName'],email=userInfo['email'],phone=userInfo['phone'],
+                        address=userInfo['address'],county=userInfo['county'],city=userInfo['city'],buyer_id=buyer,block=userInfo['block'],scara=userInfo['scara'],apartment=userInfo['apartment'],payment_method=userInfo['payment_method'],
+                        delivery_method=userInfo['delivery_method'], products_name=productsName['names'], products_id=productsId['productIds'])
+            newOrder.save()
             try:
                 if cart!=None:
                     paymentIntent = stripe.PaymentIntent.create(
@@ -286,29 +293,6 @@ class PersonalDataView(APIView):
     def post(self,request,format=None):
         serializer=self.serializer_class(data=request.data)
         if serializer.is_valid():
-            firstName= serializer.data.get('firstName')
-            lastName= serializer.data.get('lastName')
-            email= serializer.data.get('email')
-            address = serializer.data.get('address')
-            county= serializer.data.get('county')
-            city= serializer.data.get('city')
-            phone = serializer.data.get('phone')
-            block= serializer.data.get('block')
-            scara = serializer.data.get('scara')
-            apartment = serializer.data.get('apartment')
-            payment_method= serializer.data.get('payment_method')
-            postal_code= serializer.data.get('postal_code')
-            delivery_method= serializer.data.get('delivery_method')
-            buyer_id = self.request.session.session_key if serializer.data.get('buyer_id')=='Anonymous' else serializer.data.get('buyer_id')
-
-            emptyOrders = Orders.objects.filter(buyer_id=buyer_id)
-            for i in emptyOrders:
-                if i.product_name=='' or i.product_id==0:
-                    i.delete()
-
-            personalData = Orders(postal_code=postal_code,firstName=firstName,lastName=lastName,email=email,phone=phone,
-            address=address,county=county,city=city,buyer_id=buyer_id,block=block,scara=scara,apartment=apartment,payment_method=payment_method,delivery_method=delivery_method)
-            personalData.save()
 
             return Response({"ok":"ok"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -322,7 +306,7 @@ class AddReview(APIView):
             self.request.session.create()
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            creator = self.request.session.session_key
+            creator = self.request.session.session_key if serializer.data.get('creator')=='Anonymous' else serializer.data.get('creator')
             rating = serializer.data.get('rating')
             comment = serializer.data.get('comment')
             product_id = serializer.data.get('product_id')
@@ -360,10 +344,19 @@ class GetUserReviews(APIView):
     lookup_url_kwarg = 'user'
     def get(self, request, format=None):
         user = request.GET.get(self.lookup_url_kwarg)
-        userReviews = Review.objects.filter(creator=self.request.session.session_key) #get by user not by session(future update)
+        userReviews = Review.objects.filter(creator=user) #get by user not by session(future update)
         if userReviews.exists():
             data = ReviewSerializer(userReviews, many=True).data
             return Response(data, status=status.HTTP_200_OK)
+        return Response({'404 error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class GetUserOrders(APIView):
+    lookup_url_kwarg = 'user'
+    def get(self, request, format=None):
+        user = request.GET.get(self.lookup_url_kwarg)
+        userOrders = Orders.objects.filter(buyer_id=user)
+        if userOrders.exists():
+            return Response(OrderSerializer(userOrders,many=True).data, status=status.HTTP_200_OK)
         return Response({'404 error': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
         
 
@@ -399,6 +392,7 @@ class Contact(APIView):
             )
             return Response({'OK':"200"},status = status.HTTP_200_OK)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
 
     
 

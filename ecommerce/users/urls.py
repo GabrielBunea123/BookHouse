@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.routers import SimpleRouter
+
 
 
 urlpatterns = [
@@ -15,4 +17,5 @@ urlpatterns = [
     path('logout',Logout.as_view()),
     path('get-profile', GetProfile.as_view()),
     path('create-profile', CreateProfile.as_view()),
+    re_path(r'^update-profile-image', UpdateProfileImage.as_view()),
 ]

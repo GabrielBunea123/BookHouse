@@ -12,17 +12,11 @@ import SearchedResults from "./SearchedResults"
 import Footer from "./Footer";
 import Contact from "./Contact";
 import Register from "./Register"
-import Login from "./Login";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Redirect } from "react-router-dom";
 import Success from "./Success";
 import Error from "./Error";
 import Profile from "./Profile";
+import Login from "./Login";
 
 
 const HomePage = (props) => {
@@ -34,24 +28,24 @@ const HomePage = (props) => {
     return (
         <Router>
             <Navbar></Navbar>
-            <Switch>
-                <Route exact path="/" component={Home}></Route>
-                <Route path="/add-product" component={AddProductPage} />
-                <Route path="/product-details/:id" component={ProductDetails} />
-                <Route path="/cart" component={Cart} />
-                <Route path="/favourite-products/:buyer" component={FavouriteProducts} />
-                <Route path="/checkout/:buyer" component={Checkout}></Route>
-                <Route path="/profile" component={Profile} />
-                <Route path="/fill-in-personal-data" component={PersonalData} />
-                <Route path="/success" component={Success} />
-                <Route path="/error" component={Error} />
-                <Route path='/searched-results/:query' component={SearchedResults} />
-                <Route path="/contact-support" component={Contact} />
-                <Route path="/register" component={Register} />
-                <Route path="/login" component={Login} />
-                <Route path="*" component={NotFound}></Route>
+            <Routes>
+                <Route path="/" element={Home}></Route>
+                <Route path="/add-product" element={AddProductPage}></Route>
+                <Route path="/product-details/:id" element={ProductDetails} />
+                <Route path="/cart" element={Cart} />
+                <Route path="/favourite-products/:buyer" element={FavouriteProducts} />
+                <Route path="/checkout/:buyer" element={Checkout}></Route>
+                <Route path="/profile" element={Profile} />
+                <Route path="/fill-in-personal-data" element={PersonalData} />
+                <Route path="/success" element={Success} />
+                <Route path="/error" element={Error} />
+                <Route path='/searched-results/:query' elementt={SearchedResults} />
+                <Route path="/contact-support" element={Contact} />
+                <Route path="/register" element={Register} />
+                <Route path="/login" element={Login} />
+                <Route path="*" element={NotFound}></Route>
 
-            </Switch>
+            </Routes>
         </Router>
     )
 }

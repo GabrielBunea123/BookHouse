@@ -124,9 +124,9 @@ body {
 
 .profile-img {
   padding: 2px;
-  border-radius: 5px;
+  border-radius: 20px;
   object-fit: cover;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   width:120px;
   height: 120px;
 }
@@ -183,6 +183,29 @@ body {
   justify-content: center;
   margin-top: 50px;
   margin-bottom: 50px;
+}
+
+.profile-container {
+  margin-left: 40px;
+}
+
+@media screen and (max-width: 465px) {
+  .profile-container{
+    margin-left:5px;
+  }
+  .profile-name-container{
+    justify-content:center;
+  }
+  .profile-change{
+    justify-content:center;
+  }
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.custom-file-input::before{
+  content: 'Edit profile image';
 }
 
 .container-cup {

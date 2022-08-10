@@ -1,7 +1,9 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useHistory } from "react-router";
+import { useNavigate } from 'react-router';
+import ProductCard from '../components/ProductCard';
+import axios from 'axios';
 
 const Profile = () => {
 
@@ -10,7 +12,10 @@ const Profile = () => {
     const [profile, setProfile] = useState({})
     const [favouriteBooks, setFavouriteBooks] = useState(0) // favourite books number
     const [reviewsNumber, setReviewsNumber] = useState(0)
-    const history = useHistory();
+    const [ordersNumber, setOrdersNumber] = useState(0)
+    const [orderedProducts, setOrderedProducts] = useState([])
+    const navigate = useNavigate()
+    // const history = useHistory();
 
     function getCookie(name) {
         var cookieValue = null;
@@ -46,10 +51,11 @@ const Profile = () => {
                     getProfile(data.id)
                     getFavouriteProducts(data.id)
                     getUserReviews(data.id)
+                    getUserOrders(data.id)
                 }
                 else {
                     setIsAuthenticated(false)
-                    history.push("/login")
+                    navigate("/login")
                 }
             })
     }
@@ -64,14 +70,12 @@ const Profile = () => {
     }
 
     const getFavouriteProducts = (userAuth) => {
-        fetch('/api/favourite-products' + '?buyer=' + userAuth)
+        fetch('/api/favourite-products' + '?author=' + userAuth)
             .then((res) => res.json())
             .then((data) => {
-                var num = 0
-                data.map((item) => {
-                    num++;
-                })
-                setFavouriteBooks(num)
+                if (data.length > 0)
+                    setFavouriteBooks(data.length)
+                else setFavouriteBooks(0)
             })
     }
 
@@ -79,13 +83,37 @@ const Profile = () => {
         fetch('/api/get-user-reviews' + '?user=' + userAuth)
             .then(res => res.json())
             .then(data => {
-                var num = 0
-                data.map(item => {
-                    num++;
-                })
-                setReviewsNumber(num)
+                if (data.length > 0)
+                    setReviewsNumber(data.length)
+                else setReviewsNumber(0)
             })
             .catch(err => console.error(err))
+    }
+
+    const getUserOrders = (userAuth) => {
+        fetch("/api/get-user-orders" + '?user=' + userAuth)
+            .then(res => res.json())
+            .then(data => {
+                if (data.length > 0) {
+                    setOrdersNumber(data.length)
+                    data.map((item) => {
+                        item.products_id = JSON.parse(item.products_id)
+                        for (var index = 0; index < item.products_id.length; index++) {
+                            getOrderedProduct(item.products_id[index])
+                        }
+                    })
+                }
+                else setOrdersNumber(0)
+            })
+            .catch(err => console.error(err))
+    }
+
+    function getOrderedProduct(productId) {
+        fetch('/api/product-details' + '?id=' + productId)
+            .then((res) => res.json())
+            .then((data) => {
+                setOrderedProducts(prev => [...prev, data])
+            })
     }
 
 
@@ -108,8 +136,39 @@ const Profile = () => {
             .then((data) => {
                 localStorage.setItem("tokenAuth", "")
                 setIsAuthenticated(false)
-                history.push("/login")
+                navigate("/login")
+
             })
+    }
+
+    const handleProfilePicChange = (e) => {
+        var formData = new FormData(); // creates a new FormData object
+
+        formData.append("user", user.id)
+        formData.append("image", e.target.files[0])
+
+        axios.post("/users/update-profile-image/", formData, {
+            headers: {
+                'accept': 'application/json',
+                'Accept-Language': 'en-US,en;q=0.8',
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            }
+        })
+            .then(res => {
+                setIsAuthenticated(false)
+                setUser({})
+                setProfile({})
+                setFavouriteBooks(0)
+                setReviewsNumber(0)
+                setOrdersNumber(0)
+                setOrderedProducts([])
+
+                getUser()
+
+            })
+            .then((err) => console.log(err));
+
+
     }
 
     useEffect(() => {
@@ -120,69 +179,77 @@ const Profile = () => {
         <div className="container">
             {isAuthenticated === true &&
                 <div className="mt-5">
-                    <div className="d-flex justify-content-center my-5 mx-2">
-                        <div className="card shadow rounded p-5 w-100 pt-4" style={{ border: 0 }}>
+                    {/* <div className="d-flex justify-content-start my-5 mx-2"> */}
+                    <div className="" style={{ border: 0 }}>
 
-                            <div className="d-flex justify-content-evenly flex-wrap">
+                        <div className="d-flex flex-wrap profile-change">
 
-                                <div>
-                                    <div>
-                                        <img src="https://ecommerce-101.s3.amazonaws.com/images/SapiensRosu_3VsL7Al.jpg" className="profile-img image-thumbnail" alt="..."></img>
-                                    </div>
-                                    <div className="d-flex justify-content-start pt-4 pb-4 ps-3">
-                                        <div>
-                                            <h3 className="fw-bold text-center" style={{ color: "#24305E" }}>
-                                                {user.username}
-                                            </h3>
-                                        </div>
-                                        <div class="dropdown">
-                                            <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                <li><button class="dropdown-item" onClick={handleLogout}>Log out</button></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="p-3">
-                                    <div className="card ps-2 pe-2">
-                                        <div className="card-body text-center">
-                                            <div className="row">
-                                                <div className="col">Orders</div>
-                                                <div className="col">Reviews</div>
-                                                <div className="col">Favourite</div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col">
-                                                    <h5>{profile.orderedBooks}</h5>
-                                                </div>
-                                                <div className="col">
-                                                    <h5>{reviewsNumber}</h5>
-                                                </div>
-                                                <div className="col">
-                                                    <h5>{favouriteBooks}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div className="p-2 pt-3">
+                                <img src={profile.image} className="profile-img image-thumbnail" alt="..."></img>
                             </div>
 
-                            {profile.orderedBooks == 0 ?
-                                <div className="pb-5">
-                                    <div className="d-flex justify-content-center text-center pt-5 mt-5">
-                                        <h5 className="w-50" style={{ color: "#c7c7c7" }}>There are no ordered books yet</h5>
+                            <div class="p-2 pt-3 profile-container">
+                                <div className=" d-flex profile-name-container">
+                                    <div class="pt-1">
+                                        <h4 className="text-center profile-name">
+                                            {user.username}
+                                        </h4>
                                     </div>
-                                    <div className="text-center pt-2">
-                                        <i style={{ fontSize: 50, color: "#c7c7c7" }} class="fa-solid fa-book-open"></i>
+                                    <div class="dropend">
+                                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><input onChange={(e) => handleProfilePicChange(e)} type="file" class="dropdown-item custom-file-input" /></li>
+                                            <li><button class="dropdown-item" onClick={handleLogout}>Logout</button></li>
+                                        </ul>
                                     </div>
                                 </div>
-                                : null}
+
+                                <div class="card profile-stats">
+                                    <div className="card-body d-flex justify-content-center p-2 flex-wrap">
+                                        <div className="p-2 text-center">
+                                            <div>Orders</div>
+                                            <div>{ordersNumber}</div>
+                                        </div>
+                                        <div className="p-2 text-center">
+                                            <div>Reviews</div>
+                                            <div>{reviewsNumber}</div>
+                                        </div>
+                                        <div className="p-2 text-center">
+                                            <div>Favourites</div>
+                                            <div>{favouriteBooks}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+
+                        {ordersNumber == 0 &&
+                            <div className="pb-5">
+                                <div className="d-flex justify-content-center text-center pt-5 mt-5">
+                                    <h5 className="w-50" style={{ color: "#c7c7c7" }}>There are no ordered books yet</h5>
+                                </div>
+                                <div className="text-center pt-2">
+                                    <i style={{ fontSize: 50, color: "#c7c7c7" }} class="fa-solid fa-book-open"></i>
+                                </div>
+                            </div>
+                        }
                     </div>
+                    {/* </div> */}
+                    {ordersNumber > 0 &&
+                        <div className="pt-5">
+                            <div className="p-3 fw-bold" style={{ color: "#24305E" }}>My bookshelf</div>
+                            <div class="container bg-trasparent my-2 p-3" style={{ position: 'relative' }}>
+                                <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+                                    {orderedProducts.map((item, index) => (
+                                        <ProductCard item={item} />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         </div>
