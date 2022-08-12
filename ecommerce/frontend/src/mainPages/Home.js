@@ -104,7 +104,13 @@ const Home = (props) => {
     }
   }
   return (
-    <div>
+    <div className="container">
+      <div className="bh-img">
+        <div className="bh-img-text">
+          <div className="bh-img-quote">"It is not that we have a short time to live, but that we waste a lot of it"</div>
+          {/* <div className="bh-img-author">Seneca</div> */}
+        </div>
+      </div>
       <div class="container bg-trasparent my-4 p-3" style={{ position: 'relative' }}>
         <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
           {renderProducts()}

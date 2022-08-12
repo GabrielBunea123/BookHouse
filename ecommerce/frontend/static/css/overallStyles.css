@@ -9,6 +9,7 @@
 body {
   font-family: var(--font3);
   background: #faffff;
+  /* height:100vh; */
 }
 
 .color-pallette {
@@ -17,6 +18,57 @@ body {
   color: #a8d0e6;
   color: #374785;
   color: #24305e;
+}
+.bh-img{
+  background-image:url('../images/BookHouseMain.png');
+  background-size:cover;
+  background-position:center;
+  background-repeat: no-repeat;
+  /* height:100vh; */
+}
+.bh-img-text{
+  padding:100px;
+}
+.bh-img-quote{
+  /* color:white; */
+  width:50%;
+  line-height: 1.5;
+  font-weight: bold;
+  font-size: 3rem;
+}
+.bh-img-author{
+  padding-top:20px;
+  line-height: 1;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 1200px){
+  .bh-img-quote{
+    width:60%;
+    color:#24305e;
+    
+  }
+  .bh-img-text{
+    padding:40px;
+  }
+}
+
+@media screen and (max-width: 450px){
+  .bh-img-quote{
+    width:80%;
+    color:#24305e;
+    
+  }
+  .bh-img-text{
+    padding:40px;
+  }
+}
+
+@media screen and (max-width: 800px){
+  .bh-img-text{
+    padding:30px;
+  }
 }
 
 .topnav-links {
