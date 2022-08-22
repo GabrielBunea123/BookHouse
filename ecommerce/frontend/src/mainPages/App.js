@@ -33,7 +33,7 @@ const App = (props) => {
                 <Route path="/fill-in-personal-data" element={<PersonalData></PersonalData>} />
                 <Route path="/success" element={<Success></Success>} />
                 <Route path="/error" element={<Error></Error>} />
-                <Route path='/searched-results/:query' elementt={<SearchedResults></SearchedResults>} />
+                <Route path='/searched-results/:query' element={<SearchedResults></SearchedResults>} />
                 <Route path="/contact-support" element={<Contact></Contact>} />
                 <Route path="/register" element={<Register></Register>} />
                 <Route path="/login" element={<Login></Login>} />
